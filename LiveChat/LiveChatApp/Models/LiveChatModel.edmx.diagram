@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6f196d687a7a4b5388946374de2a25dc" Name="Diagram1">
+        <EntityTypeShape EntityType="LiveChatModel.Conversation" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.Message" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.UserProfile" Width="1.5" PointX="7.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.UsersInConversation" Width="1.5" PointX="4.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.webpages_Membership" Width="1.5" PointX="4.125" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.webpages_OAuthMembership" Width="1.5" PointX="5.875" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiveChatModel.webpages_Roles" Width="1.5" PointX="7.625" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="LiveChatModel.FK_UsersInConversations_Conversation" ManuallyRouted="false" />
+        <AssociationConnector Association="LiveChatModel.FK_UsersInConversations_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="LiveChatModel.webpages_UsersInRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="LiveChatModel.FK_Messages_Conversation" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

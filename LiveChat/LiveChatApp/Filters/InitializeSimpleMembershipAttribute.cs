@@ -17,7 +17,6 @@ namespace LiveChatApp.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            // Ensure ASP.NET Simple Membership is initialized only once per app start
             LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
 
@@ -25,15 +24,14 @@ namespace LiveChatApp.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<LiveChatEntities>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new LiveChatEntities())
                     {
                         if (!context.Database.Exists())
                         {
-                            // Create the SimpleMembership database without Entity Framework migration schema
                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                         }
                     }
