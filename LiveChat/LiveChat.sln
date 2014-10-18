@@ -5,6 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveChatApp", "LiveChatApp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveChatApp.Tests", "LiveChatApp.Tests\LiveChatApp.Tests.csproj", "{2B49A036-6542-4387-B026-D1E57466E770}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveChatDomain", "LiveChatDomain\LiveChatDomain.csproj", "{D8BDD48F-8468-41E7-9EBA-A372EDD76672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveChatDomain.Tests", "LiveChatDomain.Tests\LiveChatDomain.Tests.csproj", "{0784C3C4-E0F5-477F-ACFC-03B5106CCE58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{247D50C2-AFCA-462C-AFEF-0283A61C5148}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,8 +25,20 @@ Global
 		{2B49A036-6542-4387-B026-D1E57466E770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B49A036-6542-4387-B026-D1E57466E770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B49A036-6542-4387-B026-D1E57466E770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8BDD48F-8468-41E7-9EBA-A372EDD76672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8BDD48F-8468-41E7-9EBA-A372EDD76672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8BDD48F-8468-41E7-9EBA-A372EDD76672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8BDD48F-8468-41E7-9EBA-A372EDD76672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0784C3C4-E0F5-477F-ACFC-03B5106CCE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0784C3C4-E0F5-477F-ACFC-03B5106CCE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0784C3C4-E0F5-477F-ACFC-03B5106CCE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0784C3C4-E0F5-477F-ACFC-03B5106CCE58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B49A036-6542-4387-B026-D1E57466E770} = {247D50C2-AFCA-462C-AFEF-0283A61C5148}
+		{0784C3C4-E0F5-477F-ACFC-03B5106CCE58} = {247D50C2-AFCA-462C-AFEF-0283A61C5148}
 	EndGlobalSection
 EndGlobal
