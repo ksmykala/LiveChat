@@ -1,0 +1,53 @@
+﻿@model IEnumerable<LiveChat.Domain.Models.EntityClasses.Message>
+
+@{
+    ViewBag.Title = "Shoutbox - send to all";
+}
+
+<div>
+    <h2>Shoutbox - send your message to all users</h2>
+    <div class="input-group">
+        <input id="message-shoutbox" class="form-control" type="text" placeholder="Type your message here..."/>
+        <span id="send-shoutbox" class="btn btn-primary input-group-addon">Send</span>
+    </div>
+    <ul id="discussion-shoutbox" class="list-unstyled">
+        @foreach (var message in Model)
+        {
+            <li>@message.Content</li>
+        }
+    </ul>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function() {
+            var shoutbox = $.connection.shoutboxHub;
+
+            shoutbox.client.addNewShoutboxMessage = function(message) {
+                $('#discussion-shoutbox').append('<li>' + message + '</li');
+            };
+
+            $('#message-shoutbox').focus();
+
+            $.connection.hub.start().done(function() {
+                $('#message-shoutbox').keypress(function(e) {
+                    if (e.keyCode == 13) {
+                        sendMessage();
+                    }
+                });
+
+                $('#send-shoutbox').click(function() {
+                    sendMessage();
+                });
+
+                function sendMessage() {
+                    shoutbox.server.send($('#message-shoutbox').val());
+                    $('#message-shoutbox').val('').focus();
+                }
+            });
+        });
+    </script>
+}

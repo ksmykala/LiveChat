@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Transactions;
-using System.Web;
+﻿using LiveChat.Domain.Models.EntityClasses;
+using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using LiveChat.Domain.Models;
-using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using LiveChat.Domain.Filters;
 
 namespace LiveChat.App.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         [AllowAnonymous]

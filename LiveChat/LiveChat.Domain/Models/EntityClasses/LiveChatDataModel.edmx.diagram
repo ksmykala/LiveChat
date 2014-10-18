@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dc76d52aef564aacb78e6b8fe23a659c" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="LiveChatDataModel.Conversation" Width="1.5" PointX="10.226304535859406" PointY="15.57173895070876" />
+        <EntityTypeShape EntityType="LiveChatDataModel.Message" Width="1.5" PointX="0.75" PointY="18" />
+        <EntityTypeShape EntityType="LiveChatDataModel.UserProfile" Width="1.5" PointX="8.15400729149301" PointY="21.44506132111189" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Membership" Width="1.5" PointX="6.9038279815129133" PointY="29.748928411746832" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_OAuthMembership" Width="1.5" PointX="5.990558610293343" PointY="1.0796292727252606" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Roles" Width="1.5" PointX="6.56379453770993" PointY="23.719680648166538" />
+        <AssociationConnector Association="LiveChatDataModel.UsersInConversations" />
+        <AssociationConnector Association="LiveChatDataModel.webpages_UsersInRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
