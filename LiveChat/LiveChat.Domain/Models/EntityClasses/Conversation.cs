@@ -16,13 +16,11 @@ namespace LiveChat.Domain.Models.EntityClasses
     {
         public Conversation()
         {
-            this.Messages = new HashSet<Message>();
-            this.UserProfiles = new HashSet<UserProfile>();
+            this.Users = new HashSet<User>();
         }
     
         public System.Guid Id { get; set; }
     
-        public virtual ICollection<Message> Messages { get; set; }
-        public virtual ICollection<UserProfile> UserProfiles { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

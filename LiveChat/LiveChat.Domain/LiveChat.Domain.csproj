@@ -75,7 +75,7 @@
     <Compile Include="Models\EntityClasses\Message.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EntityClasses\UserProfile.cs">
+    <Compile Include="Models\EntityClasses\User.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntityClasses\webpages_Membership.cs">
@@ -87,6 +87,7 @@
     <Compile Include="Models\EntityClasses\webpages_Roles.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityExtensions\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Interfaces\IRepository.cs" />
     <Compile Include="Infrastructure\Concrete\MessageRepository.cs" />
@@ -115,7 +116,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\EntityExtensions\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -8,6 +8,7 @@ namespace LiveChat.App.Controllers
 {
     public class ChatController : Controller
     {
+        [Authorize]
         public ActionResult Shoutbox()
         {
             IList<Message> result;

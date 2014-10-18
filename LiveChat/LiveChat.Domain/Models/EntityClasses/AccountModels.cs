@@ -10,7 +10,7 @@ namespace LiveChat.Domain.Models.EntityClasses
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
     }
 
     public class RegisterExternalLoginModel

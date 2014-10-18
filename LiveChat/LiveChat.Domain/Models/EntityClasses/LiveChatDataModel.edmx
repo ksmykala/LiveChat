@@ -8,7 +8,7 @@
         <EntityContainer Name="LiveChatDataModelStoreContainer">
           <EntitySet Name="Conversations" EntityType="LiveChatDataModel.Store.Conversations" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
           <EntitySet Name="Messages" EntityType="LiveChatDataModel.Store.Messages" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
-          <EntitySet Name="UserProfile" EntityType="LiveChatDataModel.Store.UserProfile" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="Users" EntityType="LiveChatDataModel.Store.Users" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
           <EntitySet Name="UsersInConversations" EntityType="LiveChatDataModel.Store.UsersInConversations" store:Type="Tables" store:Schema="ksmykala1_ksmykala_admin" store:Name="UsersInConversations">
             <DefiningQuery>SELECT 
       [UsersInConversations].[ConversationId] AS [ConversationId], 
@@ -24,7 +24,7 @@
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
           <AssociationSet Name="fk_UserId" Association="LiveChatDataModel.Store.fk_UserId">
-            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Users" EntitySet="Users" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_UsersInConversations_Conversations" Association="LiveChatDataModel.Store.FK_UsersInConversations_Conversations">
@@ -32,7 +32,7 @@
             <End Role="UsersInConversations" EntitySet="UsersInConversations" />
           </AssociationSet>
           <AssociationSet Name="FK_UsersInConversations_UserProfile" Association="LiveChatDataModel.Store.FK_UsersInConversations_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Users" EntitySet="Users" />
             <End Role="UsersInConversations" EntitySet="UsersInConversations" />
           </AssociationSet>
         </EntityContainer>
@@ -52,7 +52,7 @@
           <Property Name="CreateAt" Type="datetime" Nullable="false" />
           <Property Name="CreateBy" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="UserProfile">
+        <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -123,10 +123,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_UserId">
-          <End Role="UserProfile" Type="LiveChatDataModel.Store.UserProfile" Multiplicity="1" />
+          <End Role="Users" Type="LiveChatDataModel.Store.Users" Multiplicity="1" />
           <End Role="webpages_UsersInRoles" Type="LiveChatDataModel.Store.webpages_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserProfile">
+            <Principal Role="Users">
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="webpages_UsersInRoles">
@@ -147,10 +147,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UsersInConversations_UserProfile">
-          <End Role="UserProfile" Type="LiveChatDataModel.Store.UserProfile" Multiplicity="1" />
+          <End Role="Users" Type="LiveChatDataModel.Store.Users" Multiplicity="1" />
           <End Role="UsersInConversations" Type="LiveChatDataModel.Store.UsersInConversations" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserProfile">
+            <Principal Role="Users">
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="UsersInConversations">
@@ -165,17 +165,17 @@
         <EntityContainer Name="LiveChatContext" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Conversations" EntityType="LiveChatDataModel.Conversation" />
           <EntitySet Name="Messages" EntityType="LiveChatDataModel.Message" />
-          <EntitySet Name="UserProfiles" EntityType="LiveChatDataModel.UserProfile" />
+          <EntitySet Name="Users" EntityType="LiveChatDataModel.User" />
           <EntitySet Name="webpages_Membership" EntityType="LiveChatDataModel.webpages_Membership" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="LiveChatDataModel.webpages_OAuthMembership" />
           <EntitySet Name="webpages_Roles" EntityType="LiveChatDataModel.webpages_Roles" />
           <AssociationSet Name="UsersInConversations" Association="LiveChatDataModel.UsersInConversations">
             <End Role="Conversation" EntitySet="Conversations" />
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="webpages_UsersInRoles" Association="LiveChatDataModel.webpages_UsersInRoles">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Conversation">
@@ -183,7 +183,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Guid" Name="Id" Nullable="false" />
-          <NavigationProperty Name="UserProfiles" Relationship="LiveChatDataModel.UsersInConversations" FromRole="Conversation" ToRole="UserProfile" />
+          <NavigationProperty Name="Users" Relationship="LiveChatDataModel.UsersInConversations" FromRole="Conversation" ToRole="User" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -195,14 +195,14 @@
           <Property Type="DateTime" Name="CreateAt" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="CreateBy" Nullable="false" />
         </EntityType>
-        <EntityType Name="UserProfile">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Conversations" Relationship="LiveChatDataModel.UsersInConversations" FromRole="UserProfile" ToRole="Conversation" />
-          <NavigationProperty Name="webpages_Roles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+          <NavigationProperty Name="Conversations" Relationship="LiveChatDataModel.UsersInConversations" FromRole="User" ToRole="Conversation" />
+          <NavigationProperty Name="webpages_Roles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="User" ToRole="webpages_Roles" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -235,15 +235,15 @@
           </Key>
           <Property Type="Int32" Name="RoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserProfiles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+          <NavigationProperty Name="Users" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="User" />
         </EntityType>
         <Association Name="UsersInConversations">
           <End Type="LiveChatDataModel.Conversation" Role="Conversation" Multiplicity="*" />
-          <End Type="LiveChatDataModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <End Type="LiveChatDataModel.User" Role="User" Multiplicity="*" />
         </Association>
         <Association Name="webpages_UsersInRoles">
           <End Type="LiveChatDataModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
-          <End Type="LiveChatDataModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <End Type="LiveChatDataModel.User" Role="User" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -269,9 +269,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserProfiles">
-            <EntityTypeMapping TypeName="LiveChatDataModel.UserProfile">
-              <MappingFragment StoreEntitySet="UserProfile">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="LiveChatDataModel.User">
+              <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
@@ -312,7 +312,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="UsersInConversations" TypeName="LiveChatDataModel.UsersInConversations" StoreEntitySet="UsersInConversations">
-            <EndProperty Name="UserProfile">
+            <EndProperty Name="User">
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
             <EndProperty Name="Conversation">
@@ -320,7 +320,7 @@
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="LiveChatDataModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
-            <EndProperty Name="UserProfile">
+            <EndProperty Name="User">
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
             <EndProperty Name="webpages_Roles">

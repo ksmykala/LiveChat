@@ -12,9 +12,9 @@ namespace LiveChat.Domain.Models.EntityClasses
     using System;
     using System.Collections.Generic;
     
-    public partial class UserProfile
+    public partial class User
     {
-        public UserProfile()
+        public User()
         {
             this.Conversations = new HashSet<Conversation>();
             this.webpages_Roles = new HashSet<webpages_Roles>();

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<LiveChat.Domain.Models.EntityClasses.User>
+
+@{
+    ViewBag.Title = "Manage Users Account";
+}
+<h2>Accounts Manager</h2>
+<div class="col-lg-5">
+    <ul class="list-group">
+    @foreach (var user in @Model)
+    {
+        <li id="@user.UserName-roles" class="list-group-item">
+            <span class="badge">@user.UserRolesCount</span>
+            <h4 class="list-group-item-heading" onclick="getUserRoles('#@user.UserName-roles .role-list', @user.UserId)">@user.UserName</h4>
+            <div class="role-list"></div>
+        </li>
+    }
+    </ul>
+</div>
+@section scripts{
+    <script>
+        function getUserRoles(selector, userId) {
+            if ($(selector).html() === "")
+                $.get(
+                '@Url.Action("GetUserRoles")',
+                { userId: userId },
+                function (data) {
+                    if (data.length != 0)
+                        $(selector).append('<p class="list-group-item-text">' + data.join() + '</p>');
+                    else
+                        $(selector).append('<p class="list-group-item-text">no roles - add some ;)</p>');
+                });
+            else {
+                $(selector).html('');
+            }
+        }
+    </script>
+}

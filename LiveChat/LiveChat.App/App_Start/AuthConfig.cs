@@ -6,7 +6,7 @@ namespace LiveChat.App
     {
         public static void RegisterAuth()
         {
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Users", "UserId", "UserName", autoCreateTables: true);
         }
     }
 }

@@ -16,12 +16,12 @@ namespace LiveChat.Domain.Models.EntityClasses
     {
         public webpages_Roles()
         {
-            this.UserProfiles = new HashSet<UserProfile>();
+            this.Users = new HashSet<User>();
         }
     
         public int RoleId { get; set; }
         public string RoleName { get; set; }
     
-        public virtual ICollection<UserProfile> UserProfiles { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

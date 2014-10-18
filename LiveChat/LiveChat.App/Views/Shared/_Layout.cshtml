@@ -22,6 +22,7 @@
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Shoutbox", "Shoutbox", "Chat")</li>
+                            <li>@Html.ActionLink("ManageAccounts", "ManageAccounts", "Account")</li>
                         </ul>
                     </nav>
                 </div>
@@ -43,6 +44,7 @@
 
         @Scripts.Render("~/bundles/jquery")
         @Styles.Render("~/Content/bootstrap")
+        @Styles.Render("~/Content/livechat")
         @RenderSection("scripts", required: false)
     </body>
 </html>

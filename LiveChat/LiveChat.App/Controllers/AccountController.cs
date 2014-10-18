@@ -1,7 +1,12 @@
-﻿using LiveChat.Domain.Models.EntityClasses;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using LiveChat.Domain.Infrastructure.Abstract;
+using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebGrease.Css.Extensions;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
@@ -104,6 +109,33 @@ namespace LiveChat.App.Controllers
             }
 
             return View(model);
+        }
+
+        public ViewResult ManageAccounts()
+        {
+            IEnumerable<User> result;
+
+            using(var context = new LiveChatContext())
+            {
+                var repo = new Repository<User>(context);
+                result = repo.GetAll().ToList();
+                result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
+            }
+
+            return View(result);
+        }
+
+        public JsonResult GetUserRoles(int userId)
+        {
+            IEnumerable<string> result;
+
+            using (var context = new LiveChatContext())
+            {
+                var repo = new Repository<User>(context);
+                result = repo.GetAll().Single(x => x.UserId == userId).webpages_Roles.Select(x => x.RoleName);
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

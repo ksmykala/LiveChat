@@ -16,10 +16,8 @@ namespace LiveChat.Domain.Models.EntityClasses
     {
         public System.Guid Id { get; set; }
         public string Content { get; set; }
-        public System.Guid ConversationId { get; set; }
+        public Nullable<System.Guid> ConversationId { get; set; }
         public System.DateTime CreateAt { get; set; }
         public int CreateBy { get; set; }
-    
-        public virtual Conversation Conversation { get; set; }
     }
 }
