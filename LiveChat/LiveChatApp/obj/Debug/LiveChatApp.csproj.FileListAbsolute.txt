@@ -83,3 +83,14 @@ C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveC
 C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\obj\Debug\LiveChatApp.csprojResolveAssemblyReference.cache
 C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\obj\Debug\LiveChatApp.dll
 C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\obj\Debug\LiveChatApp.pdb
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.Security.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Owin.dll
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.xml
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Krzysztof\Documents\Visual Studio 2012\Projects\Test\MVC\LiveChat\LiveChat\LiveChatApp\bin\Microsoft.Owin.Security.xml
