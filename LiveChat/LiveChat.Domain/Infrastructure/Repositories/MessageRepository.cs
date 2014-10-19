@@ -1,7 +1,5 @@
-﻿using LiveChat.Domain.Infrastructure.Interfaces;
-using LiveChat.Domain.Models.EntityClasses;
+﻿using LiveChat.Domain.Models.EntityClasses;
 using System;
-using System.Linq;
 
 namespace LiveChat.Domain.Infrastructure.Repositories
 {

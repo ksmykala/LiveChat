@@ -1,9 +1,12 @@
-﻿using LiveChat.Domain.Infrastructure.Interfaces;
+﻿using System.Collections.Generic;
+using System.Web.WebSockets;
+using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using LiveChat.Domain.Models.EntityExtensions;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
@@ -76,6 +79,44 @@ namespace LiveChat.App.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterNewUser(ManageAccountsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    WebSecurity.CreateUserAndAccount(model.RegisterModel.UserName, model.RegisterModel.Password);
+                    return RedirectToAction("ManageAccounts");
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ModelState.AddModelError(string.Empty, ErrorCodeToString(e.StatusCode));
+                }
+            }
+            if (model.Users == null)
+                model.Users = GetUsers();
+
+            return View("ManageAccounts", model);
+        }
+
+        public ViewResult ManageAccounts(ManageAccountsViewModel model)
+        {
+            if (model.Users == null)
+                model.Users = GetUsers();
+
+            return View(model);
+        }
+
+        private IEnumerable<User> GetUsers()
+        {
+            var result = _repository.GetAll().ToList();
+            result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
+
+            return result;
+        }
+
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -113,14 +154,6 @@ namespace LiveChat.App.Controllers
             }
 
             return View(model);
-        }
-
-        public ViewResult ManageAccounts()
-        {
-            var result = _repository.GetAll().ToList();
-            result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
-
-            return View(result);
         }
 
         public JsonResult GetUserRoles(int userId)

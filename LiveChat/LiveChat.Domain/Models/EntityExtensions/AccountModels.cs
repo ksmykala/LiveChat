@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 
 namespace LiveChat.Domain.Models.EntityClasses
@@ -56,6 +57,7 @@ namespace LiveChat.Domain.Models.EntityClasses
         public bool RememberMe { get; set; }
     }
 
+    [Serializable]
     public class RegisterModel
     {
         [Required]
