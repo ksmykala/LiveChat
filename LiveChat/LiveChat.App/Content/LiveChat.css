@@ -12,3 +12,11 @@
     .add-user-panel .btn{
         width: 50px;
     }
+
+    .remove-role > .glyphicon {
+        display: none;
+    }
+
+    .remove-role:hover > .glyphicon{
+        display: inline;
+    }

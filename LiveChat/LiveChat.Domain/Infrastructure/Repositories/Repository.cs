@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
@@ -23,7 +24,7 @@ namespace LiveChat.Domain.Infrastructure.Repositories
 
         public virtual void Save(T entity)
         {
-            DbSet.Add(entity);
+            DbSet.AddOrUpdate(entity);
             _dbContext.SaveChanges();
         }
 

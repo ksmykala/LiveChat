@@ -4,38 +4,62 @@
     ViewBag.Title = "Manage Users Account";
 }
 <h2>Accounts Manager</h2>
-<div class="col-lg-5">
+<div class="col-lg-7">
     <ul class="list-group">
         @foreach (var user in @Model.Users)
         {
-            <li id="@user.UserName-roles" class="list-group-item">
+            <li id="@user.UserId-roles" class="list-group-item roles">
                 <span class="badge">@user.UserRolesCount</span>
-                <h4 class="list-group-item-heading" onclick="getUserRoles('#@user.UserName-roles .role-list', @user.UserId)">@user.UserName</h4>
+                <h4 class="list-group-item-heading">@user.UserName</h4>
 
-                <div class="role-list"></div>
+                @foreach (var role in user.webpages_Roles)
+                {
+                    <span class="btn btn-xs btn-primary remove-role" title="Remove role @role.RoleName" data-role-id="@role.RoleId" data-user-id="@user.UserId" 
+                          onclick="confirm('Role @role.RoleName will be remove for user @user.UserName - are you sure?')">
+                        <span>@role.RoleName</span>
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </span>
+                }
+
+                <span class="btn btn-xs btn-success add-role" title="Add role">
+                    <span>Add role </span>
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
             </li>
         }
     </ul>
-    
+</div>
+<div class="col-lg-5">
     @Html.Partial("_RegisterNewUser")
     
 </div>
 @section scripts{
     <script>
-        function getUserRoles(selector, userId) {
-            if ($(selector).html() === "")
-                $.get(
-                '@Url.Action("GetUserRoles")',
-                { userId: userId },
-                function (data) {
-                    if (data.length != 0)
-                        $(selector).append('<p class="list-group-item-text">' + data.join() + '</p>');
-                    else
-                        $(selector).append('<p class="list-group-item-text">no roles - add some ;)</p>');
+        $(function() {
+            $('.remove-role').click(function() {
+                var roleId = $(this).data('role-id');
+                var userId = $(this).data('user-id');
+
+                var elementToRemove = $(this);
+
+                $.ajax({
+                    url: '@Url.Action("RemoveUserRole")',
+                    data: { userId: userId, roleId: roleId }
+                }).complete(function() {
+                    elementToRemove.remove();
+                    updateUserRoleCounter(userId);
                 });
-            else {
-                $(selector).html('');
+            });
+
+            function updateUserRoleCounter(userId) {
+                $.ajax({
+                    url: '@Url.Action("GetUserRolesCount")',
+                    data: { userId: userId }
+                }).success(function(count) {
+                    $('#' + userId + '-roles > .badge').html(count);
+                });
             }
-        }
+
+        });
     </script>
 }

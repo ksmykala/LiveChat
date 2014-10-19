@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Web.WebSockets;
 using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
@@ -14,11 +15,11 @@ namespace LiveChat.App.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly IRepository<User> _repository;
+        private readonly IRepository<User> _userRepository;
 
         public AccountController(IRepository<User> repository)
         {
-            _repository = repository;
+            _userRepository = repository;
         }
 
         [AllowAnonymous]
@@ -111,7 +112,7 @@ namespace LiveChat.App.Controllers
 
         private IEnumerable<User> GetUsers()
         {
-            var result = _repository.GetAll().ToList();
+            var result = _userRepository.GetAll().ToList();
             result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
 
             return result;
@@ -156,11 +157,23 @@ namespace LiveChat.App.Controllers
             return View(model);
         }
 
-        public JsonResult GetUserRoles(int userId)
+        public HttpStatusCodeResult RemoveUserRole(int userId, int roleId)
         {
-            var result = _repository.GetAll().Single(x => x.UserId == userId).webpages_Roles.Select(x => x.RoleName);
+            var user = _userRepository.GetAll().Single(x => x.UserId == userId);
+            var roleToRemove = user.webpages_Roles.Single(x => x.RoleId == roleId);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            user.webpages_Roles.Remove(roleToRemove);
+
+            _userRepository.Save(user);
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public JsonResult GetUserRolesCount(int userId)
+        {
+            var count = _userRepository.GetAll().Single(x => x.UserId == userId).webpages_Roles.Count;
+
+            return Json(count, JsonRequestBehavior.AllowGet);
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
