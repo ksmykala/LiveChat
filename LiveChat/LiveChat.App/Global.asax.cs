@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using LiveChat.App.Infrastructure.Ninject;
+using Microsoft.AspNet.SignalR;
 
 namespace LiveChat.App
 {
@@ -16,6 +18,9 @@ namespace LiveChat.App
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+            GlobalHost.DependencyResolver = new SignalRNinjectDependencyResolver();
         }
     }
 }

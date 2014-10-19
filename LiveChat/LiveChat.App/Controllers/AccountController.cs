@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using LiveChat.Domain.Infrastructure.Abstract;
+using LiveChat.Domain.Infrastructure.Interfaces;
+using LiveChat.Domain.Infrastructure.Repositories;
 using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Web.Mvc;
@@ -14,6 +15,13 @@ namespace LiveChat.App.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IRepository<User> _repository;
+
+        public AccountController(IRepository<User> repository)
+        {
+            _repository = repository;
+        }
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -113,27 +121,15 @@ namespace LiveChat.App.Controllers
 
         public ViewResult ManageAccounts()
         {
-            IEnumerable<User> result;
-
-            using(var context = new LiveChatContext())
-            {
-                var repo = new Repository<User>(context);
-                result = repo.GetAll().ToList();
-                result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
-            }
+            var result = _repository.GetAll().ToList();
+            result.ForEach(x => x.UserRolesCount = x.webpages_Roles.Count);
 
             return View(result);
         }
 
         public JsonResult GetUserRoles(int userId)
         {
-            IEnumerable<string> result;
-
-            using (var context = new LiveChatContext())
-            {
-                var repo = new Repository<User>(context);
-                result = repo.GetAll().Single(x => x.UserId == userId).webpages_Roles.Select(x => x.RoleName);
-            }
+            var result = _repository.GetAll().Single(x => x.UserId == userId).webpages_Roles.Select(x => x.RoleName);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

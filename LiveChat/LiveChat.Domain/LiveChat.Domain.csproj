@@ -52,7 +52,8 @@
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\Abstract\Repository.cs" />
+    <Compile Include="Infrastructure\Repositories\UserRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\Repository.cs" />
     <Compile Include="Models\EntityClasses\AccountModels.cs" />
     <Compile Include="Models\EntityClasses\Conversation.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
@@ -90,7 +91,7 @@
     <Compile Include="Models\EntityExtensions\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Interfaces\IRepository.cs" />
-    <Compile Include="Infrastructure\Concrete\MessageRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\MessageRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

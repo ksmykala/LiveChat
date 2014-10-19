@@ -1,6 +1,6 @@
-﻿using LiveChat.Domain.Infrastructure.Concrete;
+﻿using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -8,14 +8,17 @@ namespace LiveChat.App.Controllers
 {
     public class ChatController : Controller
     {
+        private readonly IRepository<Message> _repository;
+
+        public ChatController(IRepository<Message> repository)
+        {
+            _repository = repository;
+        }
+
         [Authorize]
         public ActionResult Shoutbox()
         {
-            IList<Message> result;
-            using (var dbContext = new LiveChatContext())
-            {
-                result = new MessageRepository(dbContext).GetLastMessages(10).ToList();
-            }
+            var result = _repository.GetAll().Where(x => x.ConversationId == null).Take(10).ToList();
 
             return View(result);
         }
