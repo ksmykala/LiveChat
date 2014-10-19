@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LiveChat.Domain.Models.EntityExtensions
 {
-    public class UserViewModel
+    public class EditUserAdminViewModel
     {
         public int UserId { get; set; }
 
@@ -13,7 +13,7 @@ namespace LiveChat.Domain.Models.EntityExtensions
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Nickname")]
+        [Display(Name = "New nickname")]
         public string Nickname { get; set; }
 
         [Required]

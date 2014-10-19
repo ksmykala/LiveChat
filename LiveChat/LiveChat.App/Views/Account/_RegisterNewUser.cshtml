@@ -17,6 +17,10 @@
                     @Html.TextBoxFor(m => m.RegisterModel.UserName, new { @class = "form-control" })
                 </li>
                 <li>
+                    @Html.LabelFor(m => m.RegisterModel.Nickname)
+                    @Html.TextBoxFor(m => m.RegisterModel.Nickname, new { @class = "form-control" })
+                </li>
+                <li>
                     @Html.LabelFor(m => m.RegisterModel.Password)
                     @Html.PasswordFor(m => m.RegisterModel.Password, new { @class = "form-control" })
                 </li>

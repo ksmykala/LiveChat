@@ -1,6 +1,4 @@
 ﻿$(function () {
-
-
     $('.remove-user').click(function () {
         var userId = $(this).data('user-id');
         var userName = $(this).data('user-name');
@@ -37,8 +35,9 @@
                 data: { userId: userId, roleId: roleId }
             }).complete(function (role) {
                 elementToRemove.hide('slow', function () {
-                    $(role.responseText).appendTo('#users-roles').show('slow');
+                    $(role.responseText).appendTo('#roles-to-add').show('slow');
                     elementToRemove.remove();
+                    updateUserRoleCounter(userId);
                 });
             });
         }

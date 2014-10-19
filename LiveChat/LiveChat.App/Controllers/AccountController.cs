@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Net;
-using System.Web.WebSockets;
+using System.Web.Mvc;
 using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Linq;
-using System.Web.Mvc;
 using System.Web.Security;
 using LiveChat.Domain.Models.EntityExtensions;
+using WebGrease.Css.Extensions;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
@@ -70,7 +69,7 @@ namespace LiveChat.App.Controllers
             {
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Nickname });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -91,7 +90,8 @@ namespace LiveChat.App.Controllers
             {
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.RegisterModel.UserName, model.RegisterModel.Password);
+                    WebSecurity.CreateUserAndAccount(model.RegisterModel.UserName, model.RegisterModel.Password,
+                        new { model.RegisterModel.Nickname });
                     return RedirectToAction("ManageAccounts");
                 }
                 catch (MembershipCreateUserException e)
@@ -121,6 +121,7 @@ namespace LiveChat.App.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Administrator, User")]
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -128,26 +129,26 @@ namespace LiveChat.App.Controllers
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : string.Empty;
             ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+
+            var user = _userRepository.GetAll().Single(x => x.UserId == WebSecurity.CurrentUserId);
+            var model = new EditUserViewModel
+            {
+                UserId = user.UserId,
+                Nickname = user.Nickname
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(UserViewModel model)
+        public ActionResult Manage(EditUserViewModel model)
         {
             ViewBag.ReturnUrl = Url.Action("Manage");
 
             if (ModelState.IsValid)
             {
-                bool changePasswordSucceeded;
-                try
-                {
-                    changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
+                var changePasswordSucceeded = ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
 
                 if (changePasswordSucceeded)
                 {
@@ -158,6 +159,36 @@ namespace LiveChat.App.Controllers
             }
 
             return View(model);
+        }
+
+        private bool ChangePassword(string userName, string oldPassword, string newPassword)
+        {
+            bool changePasswordSucceeded;
+            try
+            {
+                changePasswordSucceeded = WebSecurity.ChangePassword(userName, oldPassword, newPassword);
+            }
+            catch (Exception)
+            {
+                changePasswordSucceeded = false;
+            }
+            return changePasswordSucceeded;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public RedirectToRouteResult ChangeNickname(EditUserViewModel model)
+        {
+            if (!string.IsNullOrEmpty(model.Nickname))
+            {
+                var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
+                user.Nickname = model.Nickname;
+                _userRepository.Save(user);
+            }
+
+            ModelState.ForEach(x => x.Value.Errors.Clear());
+
+            return RedirectToAction("Manage");
         }
 
         public ActionResult AddUserRole(int userId, int roleId)
@@ -217,7 +248,7 @@ namespace LiveChat.App.Controllers
             var user = _userRepository.GetAll().Single(x => x.UserId == userId);
             var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
             var rolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
-            var result = new UserViewModel
+            var result = new EditUserAdminViewModel
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
@@ -230,9 +261,24 @@ namespace LiveChat.App.Controllers
         }
 
         [HttpPost]
-        public ViewResult EditUser(UserViewModel model)
+        public ActionResult EditUser(EditUserAdminViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
+                user.Nickname = model.Nickname;
+                _userRepository.Save(user);
+
+                var changePasswordSucceeded = ChangePassword(model.UserName, model.OldPassword, model.NewPassword);
+                if (changePasswordSucceeded)
+                {
+                    return RedirectToAction("EditUser", new { userId = model.UserId });
+                }
+
+                ModelState.AddModelError(string.Empty, "The current password is incorrect or the new password is invalid.");
+            }
+
+            return RedirectToAction("EditUser", new { userId = model.UserId });
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

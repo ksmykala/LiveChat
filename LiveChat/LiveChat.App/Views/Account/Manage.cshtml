@@ -1,18 +1,31 @@
-﻿@model LiveChat.Domain.Models.EntityExtensions.UserViewModel
+﻿@model LiveChat.Domain.Models.EntityExtensions.EditUserViewModel
 @{
-    ViewBag.Title = "Manage Account";
+	ViewBag.Title = "Manage Account";
 }
 
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+	<h1>@ViewBag.Title.</h1>
 </hgroup>
-
 <p class="message-success">@ViewBag.StatusMessage</p>
 
 <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+@if (@Model.Nickname != null)
+{
+	<p>You're nickname is <strong>@Model.Nickname</strong>.</p>
+}
+else
+{
+	<p>You don't have a nickname. You can set it below.</p>
+}
 
-@Html.Partial("_ChangePassword")
+
+<div class="col-lg-4">
+	@Html.Partial("_ChangePassword")
+</div>
+<div class="col-lg-4">
+	@Html.Partial("_ChangeNickname")
+</div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }

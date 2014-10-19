@@ -42,8 +42,12 @@ namespace LiveChat.Domain.Models.EntityClasses
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Login")]
         public string UserName { get; set; }
+        
+        [Required]
+        [Display(Name = "Nickname")]
+        public string Nickname { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
