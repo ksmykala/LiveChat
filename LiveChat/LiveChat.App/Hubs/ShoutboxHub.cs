@@ -16,7 +16,7 @@ namespace LiveChat.App.Hubs
 
         public void Send(string message)
         {
-            _repository.Save(new Message{Content = message, CreateBy = WebSecurity.CurrentUserId});
+            _repository.Save(new Message { Content = message, CreateBy = WebSecurity.CurrentUserId });
 
             Clients.All.addNewShoutboxMessage(message);
         }

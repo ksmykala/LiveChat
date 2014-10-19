@@ -39,7 +39,7 @@ namespace LiveChat.App.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError(string.Empty, "The user name or password provided is incorrect.");
             return View(model);
         }
 
@@ -73,7 +73,7 @@ namespace LiveChat.App.Controllers
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                    ModelState.AddModelError(string.Empty, ErrorCodeToString(e.StatusCode));
                 }
             }
 
@@ -85,7 +85,7 @@ namespace LiveChat.App.Controllers
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : "";
+                : string.Empty;
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
@@ -112,8 +112,8 @@ namespace LiveChat.App.Controllers
                 {
                     return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
-                
-                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+
+                ModelState.AddModelError(string.Empty, "The current password is incorrect or the new password is invalid.");
             }
 
             return View(model);
@@ -140,10 +140,8 @@ namespace LiveChat.App.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

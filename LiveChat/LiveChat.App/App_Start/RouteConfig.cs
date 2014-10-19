@@ -16,8 +16,7 @@ namespace LiveChat.App
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Chat", action = "Shoutbox", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Chat", action = "Shoutbox", id = UrlParameter.Optional });
         }
     }
 }
