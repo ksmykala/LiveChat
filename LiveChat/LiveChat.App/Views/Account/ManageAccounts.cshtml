@@ -10,7 +10,12 @@
         {
             <li id="@user.UserId-roles" class="list-group-item roles">
                 <span class="badge">@user.UserRolesCount</span>
-                <h4 class="list-group-item-heading">@user.UserName</h4>
+
+                <h4 class="list-group-item-heading">@user.UserName
+                    <span class="btn btn-xs btn-danger remove-user" data-user-id="@user.UserId" title="Remove @user.UserName">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </span>
+                </h4>
 
                 @foreach (var role in user.webpages_Roles)
                 {
@@ -35,7 +40,21 @@
 </div>
 @section scripts{
     <script>
-        $(function() {
+        $(function () {
+            $('.remove-user').click(function () {
+                var userId = $(this).data('user-id');
+                var elementToRemove = $(this).parent().parent();
+
+                $.ajax({
+                    url: '@Url.Action("RemoveUser")',
+                    data: { userId: userId }
+                }).complete(function () {
+                    elementToRemove.slideUp('slow', function() {
+                        elementToRemove.remove();
+                    });
+                });
+            });
+
             $('.remove-role').click(function() {
                 var roleId = $(this).data('role-id');
                 var userId = $(this).data('user-id');
@@ -45,8 +64,10 @@
                 $.ajax({
                     url: '@Url.Action("RemoveUserRole")',
                     data: { userId: userId, roleId: roleId }
-                }).complete(function() {
-                    elementToRemove.remove();
+                }).complete(function () {
+                    elementToRemove.hide('slow', function () {
+                        elementToRemove.remove();
+                    });
                     updateUserRoleCounter(userId);
                 });
             });
@@ -59,7 +80,6 @@
                     $('#' + userId + '-roles > .badge').html(count);
                 });
             }
-
         });
     </script>
 }

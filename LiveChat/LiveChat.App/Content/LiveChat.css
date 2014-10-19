@@ -20,3 +20,11 @@
     .remove-role:hover > .glyphicon{
         display: inline;
     }
+
+.remove-user {
+    display: none;
+}
+
+        .roles > .list-group-item-heading:hover > .remove-user {
+            display: inline;
+        }

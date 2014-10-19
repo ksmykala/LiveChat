@@ -157,6 +157,7 @@ namespace LiveChat.App.Controllers
             return View(model);
         }
 
+        [ChildActionOnly]
         public HttpStatusCodeResult RemoveUserRole(int userId, int roleId)
         {
             var user = _userRepository.GetAll().Single(x => x.UserId == userId);
@@ -169,10 +170,18 @@ namespace LiveChat.App.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        public HttpStatusCodeResult RemoveUser(int userId)
+        {
+            var userToRemove = _userRepository.GetAll().Single(x => x.UserId == userId);
+            _userRepository.Delete(userToRemove);
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [ChildActionOnly]
         public JsonResult GetUserRolesCount(int userId)
         {
             var count = _userRepository.GetAll().Single(x => x.UserId == userId).webpages_Roles.Count;
-
             return Json(count, JsonRequestBehavior.AllowGet);
         }
 
