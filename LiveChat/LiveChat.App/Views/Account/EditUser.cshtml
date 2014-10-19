@@ -1,0 +1,72 @@
+﻿@using LiveChat.Domain.Models.EntityExtensions
+@model LiveChat.Domain.Models.EntityExtensions.UserViewModel
+
+@{
+    ViewBag.Title = "Edit user - " + @Model.UserName;
+}
+
+<div class="edit-user-panel panel panel-primary">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-wrench"></span> Edit user - @Model.UserName
+    </div>
+
+    <div id="user-data" class="panel-body">
+        @using (@Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <fieldset>
+                <legend>Registration Form</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(m => m.Nickname)
+                        @Html.TextBoxFor(m => m.Nickname, new { @class = "form-control" })
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.NewPassword)
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </li>
+                </ol>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </fieldset>
+        }
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(m => m.Roles)
+        <div class="panel panel-default">
+            <div id="users-roles" class="panel-body">
+                @foreach (var role in @Model.Roles)
+                {
+                    @Html.Partial("_RemoveRole", new RoleViewModel
+                    {
+                        RoleId = role.RoleId, UserId = Model.UserId, RoleName = role.RoleName, UserName = Model.UserName
+                    })
+                }
+            </div>
+            <div id="roles-to-add" class="panel-body">
+                @foreach (var role in @Model.RolesToAdd)
+                {
+                    @Html.Partial("_AddRole", new RoleViewModel
+                    {
+                        RoleId = role.RoleId, UserId = Model.UserId, RoleName = role.RoleName, UserName = Model.UserName
+                    })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="role-url-container" style="display: none;" 
+     data-url-removeuser='@Url.Action("RemoveUser")'
+     data-url-adduserrole='@Url.Action("AddUserRole")'
+     data-url-getuserroles='@Url.Action("GetUserRoles")'
+     data-url-getuserrolescount='@Url.Action("GetUserRolesCount")'
+     data-url-rolepartialUrl='@Url.Action("RolePartialUrl")'
+     data-url-removeuserrole='@Url.Action("RemoveUserRole")'></div>
+@section scripts{
+    <script src="~/Scripts/live-chat/roles.js"></script>
+}
+

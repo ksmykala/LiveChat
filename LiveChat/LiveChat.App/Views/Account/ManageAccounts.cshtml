@@ -5,81 +5,44 @@
 }
 <h2>Accounts Manager</h2>
 <div class="col-lg-7">
-    <ul class="list-group">
+    <ul id="users-list" class="list-group">
         @foreach (var user in @Model.Users)
         {
             <li id="@user.UserId-roles" class="list-group-item roles">
                 <span class="badge">@user.UserRolesCount</span>
 
                 <h4 class="list-group-item-heading">@user.UserName
-                    <span class="btn btn-xs btn-danger remove-user" data-user-id="@user.UserId" title="Remove @user.UserName">
+                    <a href="@Url.Action("EditUser", "Account", new { userId = user.UserId })" class="btn btn-xs btn-primary edit-user" title="Edit @user.UserName" data-user-id="@user.UserId">
+                        <span class="glyphicon glyphicon-wrench"></span>
+                    </a>
+                    <span class="btn btn-xs btn-danger remove-user" title="Remove @user.UserName" 
+                          data-user-id="@user.UserId" data-user-name="@user.UserName">
                         <span class="glyphicon glyphicon-remove"></span>
                     </span>
                 </h4>
-
                 @foreach (var role in user.webpages_Roles)
                 {
-                    <span class="btn btn-xs btn-primary remove-role" title="Remove role @role.RoleName" data-role-id="@role.RoleId" data-user-id="@user.UserId" 
-                          onclick="confirm('Role @role.RoleName will be remove for user @user.UserName - are you sure?')">
+                    <span class="btn btn-xs btn-primary remove-role" title="Remove role @role.RoleName" 
+                          data-role-id="@role.RoleId" data-user-id="@user.UserId" 
+                          data-role-name="@role.RoleName" data-user-name="@user.UserName">
                         <span>@role.RoleName</span>
                         <span class="glyphicon glyphicon-minus"></span>
                     </span>
                 }
-
-                <span class="btn btn-xs btn-success add-role" title="Add role">
-                    <span>Add role </span>
-                    <span class="glyphicon glyphicon-plus"></span>
-                </span>
             </li>
         }
     </ul>
 </div>
 <div class="col-lg-5">
-    @Html.Partial("_RegisterNewUser")
-    
+    <div class="add-user-panel panel panel-primary">
+        @Html.Partial("_RegisterNewUser")
+    </div>
 </div>
+<div id="role-url-container" style="display: none;" 
+     data-url-removeuser='@Url.Action("RemoveUser")'
+     data-url-removeuserrole='@Url.Action("RemoveUserRole")'
+     data-url-adduserrole='@Url.Action("AddUserRole")'
+     data-url-getuserrolescount='@Url.Action("GetUserRolesCount")'></div>
 @section scripts{
-    <script>
-        $(function () {
-            $('.remove-user').click(function () {
-                var userId = $(this).data('user-id');
-                var elementToRemove = $(this).parent().parent();
-
-                $.ajax({
-                    url: '@Url.Action("RemoveUser")',
-                    data: { userId: userId }
-                }).complete(function () {
-                    elementToRemove.slideUp('slow', function() {
-                        elementToRemove.remove();
-                    });
-                });
-            });
-
-            $('.remove-role').click(function() {
-                var roleId = $(this).data('role-id');
-                var userId = $(this).data('user-id');
-
-                var elementToRemove = $(this);
-
-                $.ajax({
-                    url: '@Url.Action("RemoveUserRole")',
-                    data: { userId: userId, roleId: roleId }
-                }).complete(function () {
-                    elementToRemove.hide('slow', function () {
-                        elementToRemove.remove();
-                    });
-                    updateUserRoleCounter(userId);
-                });
-            });
-
-            function updateUserRoleCounter(userId) {
-                $.ajax({
-                    url: '@Url.Action("GetUserRolesCount")',
-                    data: { userId: userId }
-                }).success(function(count) {
-                    $('#' + userId + '-roles > .badge').html(count);
-                });
-            }
-        });
-    </script>
+    <script src="~/Scripts/live-chat/roles.js"></script>
 }

@@ -1,36 +1,35 @@
 ﻿@model LiveChat.Domain.Models.EntityExtensions.ManageAccountsViewModel
 
-<div class="add-user-panel panel panel-primary">
-    <div class="panel-heading" style="cursor:pointer;" onclick="$('#new-user-data').toggle('slow')">
-        Add new user 
-    </div>
-    <div id="new-user-data" class="panel-body">
-        @using(Html.BeginForm("RegisterNewUser", "Account"))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary()
-            <fieldset>
-                <legend>Registration Form</legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(m => m.RegisterModel.UserName)
-                        @Html.TextBoxFor(m => m.RegisterModel.UserName, new { @class = "form-control" })
-                    </li>
-                    <li>
-                        @Html.LabelFor(m => m.RegisterModel.Password)
-                        @Html.PasswordFor(m => m.RegisterModel.Password, new { @class = "form-control" })
-                    </li>
-                    <li>
-                        @Html.LabelFor(m => m.RegisterModel.ConfirmPassword)
-                        @Html.PasswordFor(m => m.RegisterModel.ConfirmPassword, new { @class = "form-control" })
-                    </li>
-                </ol>
-                <input type="submit" value="Register New User" />
-            </fieldset>
-        }
+<div class="panel-heading" style="cursor: pointer;" onclick="$('#new-user-data').toggle('slow')">
+    <span class="glyphicon glyphicon-plus"></span> Add new user 
+</div>
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
-    </div>
+<div id="new-user-data" class="panel-body">
+    @using (Html.BeginForm("RegisterNewUser", "Account"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <fieldset>
+            <legend>Registration Form</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.RegisterModel.UserName)
+                    @Html.TextBoxFor(m => m.RegisterModel.UserName, new { @class = "form-control" })
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.RegisterModel.Password)
+                    @Html.PasswordFor(m => m.RegisterModel.Password, new { @class = "form-control" })
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.RegisterModel.ConfirmPassword)
+                    @Html.PasswordFor(m => m.RegisterModel.ConfirmPassword, new { @class = "form-control" })
+                </li>
+            </ol>
+            <button type="submit" class="btn btn-success">Register New User</button>
+        </fieldset>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
 </div>

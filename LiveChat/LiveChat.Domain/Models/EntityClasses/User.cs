@@ -22,6 +22,7 @@ namespace LiveChat.Domain.Models.EntityClasses
     
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Nickname { get; set; }
     
         public virtual ICollection<Conversation> Conversations { get; set; }
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }

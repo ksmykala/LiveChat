@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Net;
 using System.Web.WebSockets;
 using LiveChat.Domain.Infrastructure.Interfaces;
@@ -12,14 +13,16 @@ using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class AccountController : Controller
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<webpages_Roles> _rolesRepository;
 
-        public AccountController(IRepository<User> repository)
+        public AccountController(IRepository<User> repository, IRepository<webpages_Roles> rolesRepository)
         {
             _userRepository = repository;
+            _rolesRepository = rolesRepository;
         }
 
         [AllowAnonymous]
@@ -130,7 +133,7 @@ namespace LiveChat.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        public ActionResult Manage(UserViewModel model)
         {
             ViewBag.ReturnUrl = Url.Action("Manage");
 
@@ -157,17 +160,42 @@ namespace LiveChat.App.Controllers
             return View(model);
         }
 
-        [ChildActionOnly]
-        public HttpStatusCodeResult RemoveUserRole(int userId, int roleId)
+        public ActionResult AddUserRole(int userId, int roleId)
+        {
+            var user = _userRepository.GetAll().Single(x => x.UserId == userId);
+            var roleToAdd = _rolesRepository.GetAll().Single(x => x.RoleId == roleId);
+
+            if (!Roles.IsUserInRole(user.UserName, roleToAdd.RoleName))
+                Roles.AddUserToRole(user.UserName, roleToAdd.RoleName);
+
+            var model = new RoleViewModel
+            {
+                RoleId = roleToAdd.RoleId,
+                RoleName = roleToAdd.RoleName,
+                UserId = user.UserId,
+                UserName = user.UserName
+            };
+
+            return PartialView("_RemoveRole", model);
+        }
+
+        public PartialViewResult RemoveUserRole(int userId, int roleId)
         {
             var user = _userRepository.GetAll().Single(x => x.UserId == userId);
             var roleToRemove = user.webpages_Roles.Single(x => x.RoleId == roleId);
 
-            user.webpages_Roles.Remove(roleToRemove);
+            if (Roles.IsUserInRole(user.UserName, roleToRemove.RoleName))
+                Roles.RemoveUserFromRole(user.UserName, roleToRemove.RoleName);
 
-            _userRepository.Save(user);
+            var model = new RoleViewModel
+            {
+                RoleId = roleToRemove.RoleId,
+                RoleName = roleToRemove.RoleName,
+                UserId = user.UserId,
+                UserName = user.UserName
+            };
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return PartialView("_AddRole", model);
         }
 
         public HttpStatusCodeResult RemoveUser(int userId)
@@ -178,11 +206,33 @@ namespace LiveChat.App.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [ChildActionOnly]
         public JsonResult GetUserRolesCount(int userId)
         {
             var count = _userRepository.GetAll().Single(x => x.UserId == userId).webpages_Roles.Count;
             return Json(count, JsonRequestBehavior.AllowGet);
+        }
+
+        public ViewResult EditUser(int userId)
+        {
+            var user = _userRepository.GetAll().Single(x => x.UserId == userId);
+            var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
+            var rolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
+            var result = new UserViewModel
+            {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Nickname = user.Nickname,
+                Roles = user.webpages_Roles,
+                RolesToAdd = rolesToAdd
+            };
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public ViewResult EditUser(UserViewModel model)
+        {
+            return View();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

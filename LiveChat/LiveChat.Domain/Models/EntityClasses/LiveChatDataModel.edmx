@@ -58,6 +58,7 @@
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="56" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="56" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'ksmykala1_LiveChat.ksmykala1_ksmykala_admin.UsersInConversations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -203,6 +204,7 @@
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Conversations" Relationship="LiveChatDataModel.UsersInConversations" FromRole="User" ToRole="Conversation" />
           <NavigationProperty Name="webpages_Roles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="User" ToRole="webpages_Roles" />
+          <Property Type="String" Name="Nickname" MaxLength="56" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -272,6 +274,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LiveChatDataModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>

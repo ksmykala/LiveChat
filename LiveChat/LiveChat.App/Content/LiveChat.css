@@ -3,14 +3,21 @@
     padding: 0 1em;
 }
 
+#users-list {
+    max-height: 30em;
+    overflow-y: auto
+}
+
     .add-user-panel .list-group-item-heading {
         font-size: 18px;
         font-style: italic;
         color: rgb(133, 133, 133);
     }
 
-    .add-user-panel .btn{
-        width: 50px;
+    .edit-user-panel .list-group-item-heading {
+        font-size: 18px;
+        font-style: italic;
+        color: rgb(133, 133, 133);
     }
 
     .remove-role > .glyphicon {
@@ -27,4 +34,13 @@
 
         .roles > .list-group-item-heading:hover > .remove-user {
             display: inline;
+        }
+
+.edit-user {
+    display: none;
+}
+
+        .roles > .list-group-item-heading:hover > .edit-user {
+            display: inline;
+            margin-right: 0.2em;
         }
