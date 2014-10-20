@@ -1,0 +1,48 @@
+﻿@model LiveChat.Domain.Models.EntityExtensions.ManageAccountsViewModel
+
+@{
+    ViewBag.Title = "Manage Users Account";
+}
+<h2>Accounts Manager</h2>
+<div class="col-lg-7">
+    <ul id="users-list" class="list-group">
+        @foreach (var user in @Model.Users)
+        {
+            <li id="@user.UserId-roles" class="list-group-item roles">
+                <span class="badge">@user.UserRolesCount</span>
+
+                <h4 class="list-group-item-heading">@user.UserName
+                    <a href="@Url.Action("EditUser", "Account", new { userId = user.UserId })" class="btn btn-xs btn-primary edit-user" title="Edit @user.UserName" data-user-id="@user.UserId">
+                        <span class="glyphicon glyphicon-wrench"></span>
+                    </a>
+                    <span class="btn btn-xs btn-danger remove-user" title="Remove @user.UserName" 
+                          data-user-id="@user.UserId" data-user-name="@user.UserName">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </span>
+                </h4>
+                @foreach (var role in user.webpages_Roles)
+                {
+                    <span class="btn btn-xs btn-primary remove-role" title="Remove role @role.RoleName" 
+                          data-role-id="@role.RoleId" data-user-id="@user.UserId" 
+                          data-role-name="@role.RoleName" data-user-name="@user.UserName">
+                        <span>@role.RoleName</span>
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </span>
+                }
+            </li>
+        }
+    </ul>
+</div>
+<div class="col-lg-5">
+    <div class="add-user-panel panel panel-primary">
+        @Html.Partial("_RegisterNewUser")
+    </div>
+</div>
+<div id="role-url-container" style="display: none;" 
+     data-url-removeuser='@Url.Action("RemoveUser")'
+     data-url-removeuserrole='@Url.Action("RemoveUserRole")'
+     data-url-adduserrole='@Url.Action("AddUserRole")'
+     data-url-getuserrolescount='@Url.Action("GetUserRolesCount")'></div>
+@section scripts{
+    <script src="~/Scripts/live-chat/roles.js"></script>
+}

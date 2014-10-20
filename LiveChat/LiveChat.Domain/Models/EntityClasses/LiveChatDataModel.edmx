@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LiveChatDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="LiveChatDataModelStoreContainer">
+          <EntitySet Name="Conversations" EntityType="LiveChatDataModel.Store.Conversations" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="Messages" EntityType="LiveChatDataModel.Store.Messages" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="Users" EntityType="LiveChatDataModel.Store.Users" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="UsersInConversations" EntityType="LiveChatDataModel.Store.UsersInConversations" store:Type="Tables" store:Schema="ksmykala1_ksmykala_admin" store:Name="UsersInConversations">
+            <DefiningQuery>SELECT 
+      [UsersInConversations].[ConversationId] AS [ConversationId], 
+      [UsersInConversations].[UserId] AS [UserId]
+      FROM [ksmykala1_ksmykala_admin].[UsersInConversations] AS [UsersInConversations]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="webpages_Membership" EntityType="LiveChatDataModel.Store.webpages_Membership" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="LiveChatDataModel.Store.webpages_OAuthMembership" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="webpages_Roles" EntityType="LiveChatDataModel.Store.webpages_Roles" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="LiveChatDataModel.Store.webpages_UsersInRoles" store:Type="Tables" Schema="ksmykala1_ksmykala_admin" />
+          <AssociationSet Name="fk_RoleId" Association="LiveChatDataModel.Store.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="LiveChatDataModel.Store.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInConversations_Conversations" Association="LiveChatDataModel.Store.FK_UsersInConversations_Conversations">
+            <End Role="Conversations" EntitySet="Conversations" />
+            <End Role="UsersInConversations" EntitySet="UsersInConversations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInConversations_UserProfile" Association="LiveChatDataModel.Store.FK_UsersInConversations_UserProfile">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInConversations" EntitySet="UsersInConversations" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Conversations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Content" Type="nchar" Nullable="false" />
+          <Property Name="ConversationId" Type="uniqueidentifier" />
+          <Property Name="CreateAt" Type="datetime" Nullable="false" />
+          <Property Name="CreateBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="56" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="56" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ksmykala1_LiveChat.ksmykala1_ksmykala_admin.UsersInConversations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="UsersInConversations">
+          <Key>
+            <PropertyRef Name="ConversationId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ConversationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="ProviderUserId" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_RoleId">
+          <End Role="webpages_Roles" Type="LiveChatDataModel.Store.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="LiveChatDataModel.Store.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="LiveChatDataModel.Store.Users" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="LiveChatDataModel.Store.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInConversations_Conversations">
+          <End Role="Conversations" Type="LiveChatDataModel.Store.Conversations" Multiplicity="1" />
+          <End Role="UsersInConversations" Type="LiveChatDataModel.Store.UsersInConversations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersInConversations">
+              <PropertyRef Name="ConversationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInConversations_UserProfile">
+          <End Role="Users" Type="LiveChatDataModel.Store.Users" Multiplicity="1" />
+          <End Role="UsersInConversations" Type="LiveChatDataModel.Store.UsersInConversations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInConversations">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LiveChatDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LiveChatContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Conversations" EntityType="LiveChatDataModel.Conversation" />
+          <EntitySet Name="Messages" EntityType="LiveChatDataModel.Message" />
+          <EntitySet Name="Users" EntityType="LiveChatDataModel.User" />
+          <EntitySet Name="webpages_Membership" EntityType="LiveChatDataModel.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="LiveChatDataModel.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="LiveChatDataModel.webpages_Roles" />
+          <AssociationSet Name="UsersInConversations" Association="LiveChatDataModel.UsersInConversations">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="webpages_UsersInRoles" Association="LiveChatDataModel.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="LiveChatDataModel.UsersInConversations" FromRole="Conversation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="4000" FixedLength="true" Unicode="true" />
+          <Property Type="Guid" Name="ConversationId" />
+          <Property Type="DateTime" Name="CreateAt" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="CreateBy" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Conversations" Relationship="LiveChatDataModel.UsersInConversations" FromRole="User" ToRole="Conversation" />
+          <NavigationProperty Name="webpages_Roles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="User" ToRole="webpages_Roles" />
+          <Property Type="String" Name="Nickname" MaxLength="56" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Precision="3" />
+          <Property Type="String" Name="ConfirmationToken" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsConfirmed" />
+          <Property Type="DateTime" Name="LastPasswordFailureDate" Precision="3" />
+          <Property Type="Int32" Name="PasswordFailuresSinceLastSuccess" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="PasswordChangedDate" Precision="3" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordVerificationToken" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="PasswordVerificationTokenExpirationDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Type="String" Name="Provider" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProviderUserId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Int32" Name="RoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="User" />
+        </EntityType>
+        <Association Name="UsersInConversations">
+          <End Type="LiveChatDataModel.Conversation" Role="Conversation" Multiplicity="*" />
+          <End Type="LiveChatDataModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <Association Name="webpages_UsersInRoles">
+          <End Type="LiveChatDataModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+          <End Type="LiveChatDataModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LiveChatDataModelStoreContainer" CdmEntityContainer="LiveChatContext">
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="LiveChatDataModel.Conversation">
+              <MappingFragment StoreEntitySet="Conversations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="LiveChatDataModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="LiveChatDataModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="LiveChatDataModel.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="LiveChatDataModel.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="LiveChatDataModel.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UsersInConversations" TypeName="LiveChatDataModel.UsersInConversations" StoreEntitySet="UsersInConversations">
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Conversation">
+              <ScalarProperty Name="Id" ColumnName="ConversationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="LiveChatDataModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
