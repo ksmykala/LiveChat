@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Helpers\ComparerHelper.cs" />
+    <Compile Include="Common\Helpers\UserHandler.cs" />
     <Compile Include="Infrastructure\Interfaces\IUsersInConversationsRepository.cs" />
     <Compile Include="Infrastructure\Interfaces\IConversationRepository.cs" />
     <Compile Include="Infrastructure\Interfaces\IUserRepository.cs" />
@@ -99,6 +100,7 @@
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntityExtensions\ChatUserViewModel.cs" />
+    <Compile Include="Models\EntityExtensions\ConnectedUser.cs" />
     <Compile Include="Models\EntityExtensions\EditUserViewModel.cs" />
     <Compile Include="Models\EntityExtensions\LiveChatContextSingleton.cs" />
     <Compile Include="Models\EntityExtensions\ManageAccountsViewModel.cs" />

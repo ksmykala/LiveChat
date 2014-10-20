@@ -40,6 +40,7 @@ namespace LiveChat.App.Controllers
         public ViewResult UsersListChat()
         {
             var result = _userRepository.GetAll()
+                .Where(x => x.UserId != WebSecurity.CurrentUserId)
                 .Select(x => new ChatUserViewModel
                 {
                     UserId = x.UserId,

@@ -22,9 +22,12 @@ namespace LiveChat.App
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/livechat").Include(
-                        "~/Scripts/live-chat/common.js"));
+                        "~/Scripts/live-chat/common.js",
+                        "~/Scripts/live-chat/user-handler.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/login").Include("~/Content/login.css"));
 
             bundles.Add(new StyleBundle("~/Content/livechat").Include("~/Content/livechat.css"));
 

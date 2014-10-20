@@ -19,7 +19,7 @@
     <ul id="discussion-private" class="list-unstyled list-group discussion">
         @foreach (var message in Model.Last10Messages)
         {
-            <li class="list-group-item-text">@message.Content</li>
+            <li class="list-group-item-text">@HttpUtility.HtmlDecode(message.Content)</li>
         }
     </ul>
 </div>
@@ -27,13 +27,11 @@
 
 @section scripts
 {
-    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
-    <script src="~/signalr/hubs"></script>
     <script>
         $(function() {
             var privateChat = $.connection.privateChatHub;
 
-            privateChat.client.addPrivateMessage = function (message) {
+            privateChat.client.addPrivateMessage = function (conversationId, message) {
                 $('#discussion-private').append('<li class="list-group-item-text">' + message + '</li');
             };
 

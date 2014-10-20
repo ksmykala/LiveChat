@@ -25,7 +25,7 @@ namespace LiveChat.App.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ViewResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -51,7 +51,7 @@ namespace LiveChat.App.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         [AllowAnonymous]
@@ -71,7 +71,7 @@ namespace LiveChat.App.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Nickname });
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Shoutbox", "Chat");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -288,7 +288,7 @@ namespace LiveChat.App.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Shoutbox", "Chat");
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

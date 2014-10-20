@@ -15,7 +15,7 @@
     <ul id="discussion-shoutbox" class="list-unstyled list-group discussion">
         @foreach (var message in Model)
         {
-            <li class="list-group-item-text">@message.Content</li>
+            <li class="list-group-item-text">@HttpUtility.HtmlDecode(message.Content)</li>
         }
     </ul>
 </div>

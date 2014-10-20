@@ -1,9 +1,8 @@
-﻿@using System.Collections.Specialized
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title - LiveChat</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
@@ -13,15 +12,14 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink("your logo here", "Shoutbox", "Chat")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
                     <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <ul id="menu" class="nav nav-tabs" role="tablist">
                             <li>@Html.ActionLink("Shoutbox", "Shoutbox", "Chat")</li>
                             <li>@Html.ActionLink("Live Chat", "UsersListChat", "Chat")</li>
                             <li>@Html.ActionLink("ManageAccounts", "ManageAccounts", "Account")</li>
@@ -36,15 +34,18 @@
                 @RenderBody()
             </section>
         </div>
+        <div id="information-panel" class="alert alert-info"></div>
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>&copy; @DateTime.Now.Year - LiveChat</p>
                 </div>
             </div>
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+        <script src="~/signalr/hubs"></script>
         @Scripts.Render("~/bundles/livechat")
         @Styles.Render("~/Content/bootstrap")
         @Styles.Render("~/Content/livechat")

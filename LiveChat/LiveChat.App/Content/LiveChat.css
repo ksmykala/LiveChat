@@ -44,3 +44,11 @@
             display: inline;
             margin-right: 0.2em;
         }
+
+#information-panel {
+    position: fixed;
+    top: 100px;
+    left: 50px;
+    z-index: 2;
+    display: none;
+}

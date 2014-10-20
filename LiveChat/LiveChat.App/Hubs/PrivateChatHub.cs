@@ -32,16 +32,16 @@ namespace LiveChat.App.Hubs
 
             var usersNames = _usersRepository.GetAll().Where(x => userIds.Contains(x.UserId)).ToList().Select(x => x.UserName).ToList();
 
-            //var messageEntity = new Message
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Content = message,
-            //    ConversationId = conversationId,
-            //    CreateAt = DateTime.Now,
-            //    CreateBy = WebSecurity.CurrentUserId
-            //};
+            var messageEntity = new Message
+            {
+                Id = Guid.NewGuid(),
+                Content = message,
+                ConversationId = conversationId,
+                CreateAt = DateTime.Now,
+                CreateBy = WebSecurity.CurrentUserId
+            };
 
-            //_messageRepository.Save(messageEntity);
+            _messageRepository.Save(messageEntity);
 
             Clients.Users(usersNames).addPrivateMessage(conversationId, message);
         }

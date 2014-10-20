@@ -1,45 +1,48 @@
 ﻿@model LiveChat.Domain.Models.EntityClasses.LoginModel
-
 @{
-    ViewBag.Title = "Log in";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LiveChat - Login</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+</head>
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
 
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
-}
-</section>
-
-@section Scripts {
+            <fieldset>
+                <legend class="form-signin-heading">Please log into <strong>LiveChat</strong> <span class="glyphicon glyphicon-bullhorn"></span></legend>
+                <ol class="list-unstyled">
+                    <li>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Login", @required = "", @autofocus = "" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "" })
+                    </li>
+                    <li>
+                        <label class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe, new { value = "remember-me" })
+                            Remember me
+                        </label>
+                    </li>
+                </ol>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            </fieldset>
+            <p>
+                @Html.ActionLink("Register", "Register") if you don't have an account.
+            </p>
+        }
+    </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/login")
+    @Styles.Render("~/Content/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
-}
+</body>
+</html>
