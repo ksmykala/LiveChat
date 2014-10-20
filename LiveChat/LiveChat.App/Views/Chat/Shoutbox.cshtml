@@ -29,12 +29,12 @@
     <script src="~/signalr/hubs"></script>
     <script>
         $(function () {
-            $("#discussion-shoutbox").scrollTop($('#discussion-shoutbox')[0].scrollHeight);
-
+            scrollToEnd('#discussion-shoutbox');
             var shoutbox = $.connection.shoutboxHub;
 
             shoutbox.client.addNewShoutboxMessage = function(author, message) {
-                $('#discussion-shoutbox').append('<li class="list-group-item-text"><strong>' + author + '</strong>' + message + '</li');
+                $('#discussion-shoutbox').append('<li class="list-group-item-text"><strong>' + author + ': </strong>' + message + '</li');
+                scrollToEnd('#discussion-shoutbox');
             };
 
             $('#message-shoutbox').focus();

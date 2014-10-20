@@ -31,11 +31,13 @@
 @section scripts
 {
     <script>
-        $(function() {
+        $(function () {
+            scrollToEnd('#discussion-private');
             var privateChat = $.connection.privateChatHub;
 
-            privateChat.client.addPrivateMessage = function(conversationId, message) {
-                $('#discussion-private').append('<li class="list-group-item-text">' + message + '</li');
+            privateChat.client.addPrivateMessage = function(conversationId, author, message) {
+                $('#discussion-private').append('<li class="list-group-item-text"><strong>' + author + ': </strong>' + message + '</li');
+                scrollToEnd('#discussion-private');
             };
 
             $('#message-private').focus();
