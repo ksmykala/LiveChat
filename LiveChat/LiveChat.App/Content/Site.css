@@ -6,7 +6,6 @@
 
 body {
 	background-color: #fff;
-	border-top: solid 10px #000;
 	color: #333;
 	font-size: .85em;
 	font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -126,13 +125,13 @@ footer {
 ----------------------------------------------------------*/
 .site-title {
 	color: #c8c8c8;
-	font-size: 2.3em;
+	font-size: 3.5em;
 	margin: 0;
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
 	background: none;
-	color: #c8c8c8;
+	color: #d9534f;
 	outline: none;
 	text-decoration: none;
 }

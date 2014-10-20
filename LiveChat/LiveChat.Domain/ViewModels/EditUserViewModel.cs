@@ -9,7 +9,6 @@ namespace LiveChat.Domain.ViewModels
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [DataType(DataType.Text)]
         [Display(Name = "Nickname")]
         public string Nickname { get; set; }
 

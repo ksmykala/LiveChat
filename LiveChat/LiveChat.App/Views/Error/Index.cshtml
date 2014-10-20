@@ -1,0 +1,33 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Page not found</title>
+</head>
+<body>
+    <div class="container" style="margin: 5em;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>Oops!</h1>
+                    <div class="error-details">
+                        Sorry, an error has occured!
+                    </div>
+                    <div class="error-actions">
+                        <a href="mailto:k.smykala@gmail.com" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Styles.Render("~/Content/404")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/bootstrap")
+</body>
+</html>
