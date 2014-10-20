@@ -14,14 +14,17 @@ namespace LiveChat.App.Controllers
     {
         private readonly IRepository<Message> _messageRepository;
         private readonly IConversationRepository _conversationRepository;
+        private readonly IUsersInConversationsRepository _usersInConversationsRepository;
         private readonly IUserRepository _userRepository;
 
         public ChatController(IRepository<Message> repository, 
             IConversationRepository conversationRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository, 
+            IUsersInConversationsRepository usersInConversationsRepository)
         {
             _messageRepository = repository;
             _userRepository = userRepository;
+            _usersInConversationsRepository = usersInConversationsRepository;
             _conversationRepository = conversationRepository;
         }
 
@@ -58,7 +61,7 @@ namespace LiveChat.App.Controllers
             {
                 var currentUser = _userRepository.GetById(WebSecurity.CurrentUserId);
                 usersEntities.Add(currentUser);
-                var conversation = _conversationRepository.GetConversationForUsers(usersEntities);
+                var conversationId = _usersInConversationsRepository.GetConversationForUsers(usersEntities);
 
                 var model = new PrivateChatViewModel
                 {
@@ -70,7 +73,7 @@ namespace LiveChat.App.Controllers
                     })
                         .ToList(),
                     Last10Messages = _messageRepository.GetAll()
-                        .Where(x => x.ConversationId == conversation.Id)
+                        .Where(x => x.ConversationId == conversationId)
                         .OrderByDescending(x => x.CreateAt)
                 };
                 return View(model);

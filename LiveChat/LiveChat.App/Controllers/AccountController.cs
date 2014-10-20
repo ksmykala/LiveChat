@@ -15,10 +15,10 @@ namespace LiveChat.App.Controllers
     [Authorize(Roles = "Administrator")]
     public class AccountController : Controller
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IRepository<webpages_Roles> _rolesRepository;
 
-        public AccountController(IRepository<User> repository, IRepository<webpages_Roles> rolesRepository)
+        public AccountController(IUserRepository repository, IRepository<webpages_Roles> rolesRepository)
         {
             _userRepository = repository;
             _rolesRepository = rolesRepository;

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace LiveChat.Domain.Infrastructure.Interfaces
 {
-    public interface IConversationRepository : IRepository<Conversation>
+    public interface IUsersInConversationsRepository : IRepository<UsersInConversation>
     {
-        Conversation GetById(Guid id);
+        Guid GetConversationForUsers(IList<User> users);
     }
 }

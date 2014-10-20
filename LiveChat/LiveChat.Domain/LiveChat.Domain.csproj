@@ -53,12 +53,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Helpers\ComparerHelper.cs" />
+    <Compile Include="Infrastructure\Interfaces\IUsersInConversationsRepository.cs" />
     <Compile Include="Infrastructure\Interfaces\IConversationRepository.cs" />
     <Compile Include="Infrastructure\Interfaces\IUserRepository.cs" />
     <Compile Include="Infrastructure\Repositories\ConversationRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\UsersInConversationsRepository.cs" />
     <Compile Include="Infrastructure\Repositories\RoleRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserRepository.cs" />
     <Compile Include="Infrastructure\Repositories\Repository.cs" />
+    <Compile Include="Models\EntityClasses\UsersInConversation.cs">
+      <DependentUpon>LiveChatDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntityExtensions\AccountModels.cs" />
     <Compile Include="Models\EntityClasses\Conversation.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>

@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dc76d52aef564aacb78e6b8fe23a659c" Name="Diagram1" ZoomLevel="77">
-        <EntityTypeShape EntityType="LiveChatDataModel.Conversation" Width="1.5" PointX="4.8592549156673508" PointY="20.634213025045682" />
-        <EntityTypeShape EntityType="LiveChatDataModel.Message" Width="1.5" PointX="1.9296087259098931" PointY="28.233584327732018" />
-        <EntityTypeShape EntityType="LiveChatDataModel.User" Width="1.5" PointX="10.509614992192768" PointY="3.6387905048387079" />
-        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Membership" Width="1.5" PointX="3.1398607954102853" PointY="8.702298958181542" />
-        <EntityTypeShape EntityType="LiveChatDataModel.webpages_OAuthMembership" Width="1.5" PointX="2.9728272571101915" PointY="19.408147880531917" />
-        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Roles" Width="1.5" PointX="9.7839979984723016" PointY="0.43488013764604933" />
-        <AssociationConnector Association="LiveChatDataModel.UsersInConversations" />
+      <Diagram DiagramId="dc76d52aef564aacb78e6b8fe23a659c" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="LiveChatDataModel.Conversation" Width="1.5" PointX="0.8241398226582165" PointY="5.9793579308219993" />
+        <EntityTypeShape EntityType="LiveChatDataModel.Message" Width="1.5" PointX="3.27309861745364" PointY="16.335045628405663" />
+        <EntityTypeShape EntityType="LiveChatDataModel.User" Width="1.5" PointX="4.0960458070487" PointY="0.71504996750273275" />
+        <EntityTypeShape EntityType="LiveChatDataModel.UsersInConversation" Width="1.5" PointX="4.235094126423399" PointY="6.5584632784866095" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Membership" Width="1.5" PointX="10.458180594471367" PointY="4.4935827127162282" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_OAuthMembership" Width="1.5" PointX="6.5620587740848118" PointY="21.6223490189865" />
+        <EntityTypeShape EntityType="LiveChatDataModel.webpages_Roles" Width="1.5" PointX="4.6616204179179022" PointY="10.178477336735687" />
         <AssociationConnector Association="LiveChatDataModel.webpages_UsersInRoles" />
       </Diagram>
     </edmx:Diagrams>
