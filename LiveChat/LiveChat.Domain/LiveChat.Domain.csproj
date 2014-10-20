@@ -99,6 +99,7 @@
     <Compile Include="Models\EntityClasses\webpages_Roles.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityExtensions\UserMessage.cs" />
     <Compile Include="ViewModels\ChatUserViewModel.cs" />
     <Compile Include="Models\EntityExtensions\ConnectedUser.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />

@@ -17,9 +17,12 @@
         </span>
     </div>
     <ul id="discussion-private" class="list-unstyled list-group discussion">
-        @foreach (var message in Model.Last10Messages)
+        @foreach (var message in Model.Messages)
         {
-            <li class="list-group-item-text">@HttpUtility.HtmlDecode(message.Content)</li>
+            <li class="list-group-item-text" title="@message.CreatedAt">
+                <strong>@(message.Author.Name): </strong>
+                @HttpUtility.HtmlDecode(message.Content)
+            </li>
         }
     </ul>
 </div>
@@ -31,26 +34,28 @@
         $(function() {
             var privateChat = $.connection.privateChatHub;
 
-            privateChat.client.addPrivateMessage = function (conversationId, message) {
+            privateChat.client.addPrivateMessage = function(conversationId, message) {
                 $('#discussion-private').append('<li class="list-group-item-text">' + message + '</li');
             };
 
             $('#message-private').focus();
 
-            $.connection.hub.start().done(function () {
-                $('#message-private').keypress(function (e) {
+            $.connection.hub.start().done(function() {
+                $('#message-private').keypress(function(e) {
                     if (e.keyCode == 13) {
                         sendMessage();
                     }
                 });
 
-                $('#send-private').click(function () {
+                $('#send-private').click(function() {
                     sendMessage();
                 });
 
                 function sendMessage() {
-                    privateChat.server.send('@Model.ConversationId', htmlEncode($('#message-private').val()));
-                    $('#message-private').val('').focus();
+                    if (!htmlEncode($('#message-shoutbox').val())) {
+                        privateChat.server.send('@Model.ConversationId', htmlEncode($('#message-private').val()));
+                        $('#message-private').val('').focus();
+                    }
                 }
             });
         });

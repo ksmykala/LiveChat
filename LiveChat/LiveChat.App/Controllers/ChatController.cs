@@ -29,11 +29,19 @@ namespace LiveChat.App.Controllers
 
         public ViewResult Shoutbox()
         {
-            var result = _messageRepository.GetAll()
+            var lastMessages = _messageRepository.GetAll()
                 .Where(x => x.ConversationId == null)
-                .OrderBy(x=>x.CreateAt)
+                .OrderBy(x => x.CreateAt)
                 .Take(50)
                 .ToList();
+
+            var result = lastMessages.Select(x => new UserMessage
+            {
+                Content = x.Content,
+                AuthorId = x.CreateBy,
+                CreatedAt = x.CreateAt,
+                Author = new ChatUserViewModel(_userRepository.GetById(x.CreateBy))
+            });
 
             return View(result);
         }
@@ -64,19 +72,30 @@ namespace LiveChat.App.Controllers
                 usersEntities.Add(currentUser);
                 var conversationId = _usersInConversationsRepository.GetConversationForUsers(usersEntities);
 
+                var chatUsers = usersEntities.Select(x => new ChatUserViewModel
+                {
+                    UserId = x.UserId,
+                    Nickname = x.Nickname,
+                    UserName = x.UserName
+                })
+                .ToList();
+
                 var model = new PrivateChatViewModel
                 {
                     ConversationId = conversationId,
-                    Users = usersEntities.Select(x => new ChatUserViewModel
-                    {
-                        UserId = x.UserId,
-                        Nickname = x.Nickname,
-                        UserName = x.UserName
-                    })
-                        .ToList(),
-                    Last10Messages = _messageRepository.GetAll()
+                    Users = chatUsers,
+                    Messages = _messageRepository.GetAll()
                         .Where(x => x.ConversationId == conversationId)
                         .OrderByDescending(x => x.CreateAt)
+                        .ToList()
+                        .Select(x => new UserMessage
+                        {
+                            AuthorId = x.CreateBy,
+                            Content = x.Content,
+                            Author = chatUsers.SingleOrDefault(y => y.UserId == x.CreateBy),
+                            CreatedAt = x.CreateAt
+                        })
+                        .ToList()
                 };
                 return View(model);
             }

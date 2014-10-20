@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
-using LiveChat.Domain.Infrastructure.Interfaces;
+﻿using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
 using Microsoft.AspNet.SignalR;
+using System;
+using System.Linq;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Hubs
@@ -27,23 +22,19 @@ namespace LiveChat.App.Hubs
 
         public void Send(Guid conversationId, string message)
         {
-            var userIds = _usersInConversationRepository.GetUsersIdsForConversation(conversationId)
-                    .ToList();
-
+            var userIds = _usersInConversationRepository.GetUsersIdsForConversation(conversationId).ToList();
             var usersNames = _usersRepository.GetAll().Where(x => userIds.Contains(x.UserId)).ToList().Select(x => x.UserName).ToList();
 
             var messageEntity = new Message
             {
-                Id = Guid.NewGuid(),
                 Content = message,
                 ConversationId = conversationId,
-                CreateAt = DateTime.Now,
                 CreateBy = WebSecurity.CurrentUserId
             };
-
             _messageRepository.Save(messageEntity);
 
-            Clients.Users(usersNames).addPrivateMessage(conversationId, message);
+            var author = _usersRepository.GetById(messageEntity.CreateBy);
+            Clients.Users(usersNames).addPrivateMessage(conversationId, author.Name, message);
         }
     }
 }
