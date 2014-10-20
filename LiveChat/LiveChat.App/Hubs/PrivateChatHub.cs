@@ -25,9 +25,8 @@ namespace LiveChat.App.Hubs
             _usersRepository = usersRepository;
         }
 
-        public void Send(string message)
+        public void Send(Guid conversationId, string message)
         {
-            var conversationId= Guid.Parse("88b07cb0-7306-428e-a317-01c25ffe2dd5");
             var userIds = _usersInConversationRepository.GetUsersIdsForConversation(conversationId)
                     .ToList();
 

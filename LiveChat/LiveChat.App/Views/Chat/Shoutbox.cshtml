@@ -46,7 +46,7 @@
                 });
 
                 function sendMessage() {
-                    shoutbox.server.send($('#message-shoutbox').val());
+                    shoutbox.server.send(htmlEncode($('#message-shoutbox').val()));
                     $('#message-shoutbox').val('').focus();
                 }
             });

@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using LiveChat.Domain.Infrastructure.Interfaces;
-using LiveChat.Domain.Infrastructure.Repositories;
+﻿using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
+using LiveChat.Domain.Models.EntityExtensions;
 using System.Linq;
 using System.Web.Mvc;
-using LiveChat.Domain.Models.EntityExtensions;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
@@ -66,6 +64,7 @@ namespace LiveChat.App.Controllers
 
                 var model = new PrivateChatViewModel
                 {
+                    ConversationId = conversationId,
                     Users = usersEntities.Select(x => new ChatUserViewModel
                     {
                         UserId = x.UserId,

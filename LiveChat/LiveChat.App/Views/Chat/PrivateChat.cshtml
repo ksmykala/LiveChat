@@ -7,7 +7,7 @@
     <h3>Private Chat with
         @foreach (var user in Model.Users.Where(x => x.UserId != WebSecurity.CurrentUserId))
         {
-            @(string.IsNullOrEmpty(user.Nickname) ? user.UserName : user.Nickname)
+            <strong>@(string.IsNullOrEmpty(user.Nickname) ? user.UserName : user.Nickname)</strong>
         }
     </h3>
     <div class="input-group">
@@ -23,3 +23,38 @@
         }
     </ul>
 </div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function() {
+            var privateChat = $.connection.privateChatHub;
+
+            privateChat.client.addPrivateMessage = function (message) {
+                $('#discussion-private').append('<li class="list-group-item-text">' + message + '</li');
+            };
+
+            $('#message-private').focus();
+
+            $.connection.hub.start().done(function () {
+                $('#message-private').keypress(function (e) {
+                    if (e.keyCode == 13) {
+                        sendMessage();
+                    }
+                });
+
+                $('#send-private').click(function () {
+                    sendMessage();
+                });
+
+                function sendMessage() {
+                    privateChat.server.send('@Model.ConversationId', htmlEncode($('#message-private').val()));
+                    $('#message-private').val('').focus();
+                }
+            });
+        });
+    </script>
+}
