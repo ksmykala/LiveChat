@@ -32,7 +32,8 @@ namespace LiveChat.App.Controllers
         {
             var result = _messageRepository.GetAll()
                 .Where(x => x.ConversationId == null)
-                .Take(10)
+                .OrderBy(x=>x.CreateAt)
+                .Take(50)
                 .ToList();
 
             return View(result);

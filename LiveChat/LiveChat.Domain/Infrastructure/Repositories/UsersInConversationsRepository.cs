@@ -9,12 +9,21 @@ namespace LiveChat.Domain.Infrastructure.Repositories
 {
     public class UsersInConversationsRepository : Repository<UsersInConversation>, IUsersInConversationsRepository
     {
+        public IQueryable<UsersInConversation> GetById(Guid id)
+        {
+            var result = GetAll().Where(x => x.ConversationId == id);
+            return result;
+        }
+
         public Guid GetConversationForUsers(IList<User> users)
         {
             var result = Guid.Empty;
-            var userIds = users.Select(x => x.UserId).OrderBy(x => x).ToArray();
-            var conversations = GetAll().GroupBy(x => x.ConversationId, x => x.UserId,
-                (key, g) => new { ConversationId = key, UsersIds = g.OrderBy(o => o).ToList() });
+            var userIds = users.Select(x => x.UserId)
+                .OrderBy(x => x)
+                .ToArray();
+            var conversations = GetAll()
+                .GroupBy(x => x.ConversationId, x => x.UserId,
+                    (key, g) => new { ConversationId = key, UsersIds = g.OrderBy(o => o).ToList() });
 
             foreach (var conversation in conversations)
             {
@@ -28,6 +37,12 @@ namespace LiveChat.Domain.Infrastructure.Repositories
             if(result == Guid.Empty)
                 result = CreateNewConversation(users);
 
+            return result;
+        }
+
+        public IQueryable<int> GetUsersIdsForConversation(Guid conversationId)
+        {
+            var result = GetById(conversationId).Select(x => x.UserId).OrderBy(x => x);
             return result;
         }
 

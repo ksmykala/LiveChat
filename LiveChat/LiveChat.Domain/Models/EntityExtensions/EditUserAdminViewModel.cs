@@ -11,7 +11,6 @@ namespace LiveChat.Domain.Models.EntityExtensions
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required]
         [DataType(DataType.Text)]
         [Display(Name = "New nickname")]
         public string Nickname { get; set; }
