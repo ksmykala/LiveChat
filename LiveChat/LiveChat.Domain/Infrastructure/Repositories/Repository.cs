@@ -1,6 +1,5 @@
 ﻿using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
-using LiveChat.Domain.Models.EntityExtensions;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
@@ -11,10 +10,11 @@ namespace LiveChat.Domain.Infrastructure.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         protected DbSet<T> DbSet;
-        private readonly LiveChatContext _dbContext = LiveChatContextSingleton.Instance;
+        private readonly LiveChatContext _dbContext;
 
         public Repository()
         {
+            _dbContext = new LiveChatContext();
             DbSet = _dbContext.Set<T>();
         }
 

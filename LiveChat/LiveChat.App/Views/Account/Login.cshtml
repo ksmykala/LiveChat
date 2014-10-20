@@ -15,11 +15,10 @@
     <div class="container">
         @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin" }))
         {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary()
-
             <fieldset>
                 <legend class="form-signin-heading">Please log into <strong>LiveChat</strong> <span class="glyphicon glyphicon-bullhorn"></span></legend>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
                 <ol class="list-unstyled">
                     <li>
                         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Login", @required = "", @autofocus = "" })
@@ -27,7 +26,7 @@
                     </li>
                     <li>
                         <label class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe, new { value = "remember-me" })
+                            @Html.CheckBoxFor(m => m.RememberMe)
                             Remember me
                         </label>
                     </li>
@@ -42,6 +41,7 @@
     
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/login")
+    @Styles.Render("~/Content/validations")
     @Styles.Render("~/Content/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
 </body>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LiveChat.Domain.Models.EntityExtensions
+namespace LiveChat.Domain.ViewModels
 {
     public class EditUserViewModel
     {

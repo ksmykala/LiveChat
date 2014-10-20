@@ -1,8 +1,9 @@
 ﻿using System;
-using LiveChat.Domain.Models.EntityClasses;
 using System.Collections.Generic;
+using LiveChat.Domain.Models.EntityClasses;
+using LiveChat.Domain.Models.EntityExtensions;
 
-namespace LiveChat.Domain.Models.EntityExtensions
+namespace LiveChat.Domain.ViewModels
 {
     public class PrivateChatViewModel
     {

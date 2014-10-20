@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Web.Security;
 using LiveChat.Domain.Models.EntityExtensions;
+using LiveChat.Domain.ViewModels;
 using WebGrease.Css.Extensions;
 using WebMatrix.WebData;
 

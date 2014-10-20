@@ -38,14 +38,11 @@ namespace LiveChat.Domain.Models.EntityClasses
         public bool RememberMe { get; set; }
     }
 
-    [Serializable]
     public class RegisterModel
     {
-        [Required]
         [Display(Name = "Login")]
         public string UserName { get; set; }
         
-        [Required]
         [Display(Name = "Nickname")]
         public string Nickname { get; set; }
 

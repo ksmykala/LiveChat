@@ -1,8 +1,8 @@
-﻿using LiveChat.Domain.Models.EntityClasses;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LiveChat.Domain.Models.EntityClasses;
 
-namespace LiveChat.Domain.Models.EntityExtensions
+namespace LiveChat.Domain.ViewModels
 {
     public class EditUserAdminViewModel
     {

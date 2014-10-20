@@ -3,6 +3,7 @@ using LiveChat.Domain.Models.EntityClasses;
 using LiveChat.Domain.Models.EntityExtensions;
 using System.Linq;
 using System.Web.Mvc;
+using LiveChat.Domain.ViewModels;
 using WebMatrix.WebData;
 
 namespace LiveChat.App.Controllers
