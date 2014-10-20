@@ -50,6 +50,9 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.0.0\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
@@ -213,6 +216,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\PrivateChatHub.cs" />
     <Compile Include="Hubs\ShoutboxHub.cs" />
     <Compile Include="Infrastructure\Ninject\NinjectControllerFactory.cs" />
     <Compile Include="Infrastructure\Ninject\SignalRNinjectDependencyResolver.cs" />
@@ -348,6 +352,8 @@
     <Content Include="Views\Account\EditUser.cshtml" />
     <Content Include="Views\Account\_RemoveRole.cshtml" />
     <Content Include="Views\Account\_AddRole.cshtml" />
+    <Content Include="Views\Chat\UsersListChat.cshtml" />
+    <Content Include="Views\Chat\PrivateChat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

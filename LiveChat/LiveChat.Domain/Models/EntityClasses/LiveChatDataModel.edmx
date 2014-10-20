@@ -202,9 +202,9 @@
           </Key>
           <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Nickname" MaxLength="56" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Conversations" Relationship="LiveChatDataModel.UsersInConversations" FromRole="User" ToRole="Conversation" />
           <NavigationProperty Name="webpages_Roles" Relationship="LiveChatDataModel.webpages_UsersInRoles" FromRole="User" ToRole="webpages_Roles" />
-          <Property Type="String" Name="Nickname" MaxLength="56" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>

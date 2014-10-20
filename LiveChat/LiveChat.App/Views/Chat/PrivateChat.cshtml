@@ -1,0 +1,25 @@
+﻿@model LiveChat.Domain.Models.EntityExtensions.PrivateChatViewModel
+
+@{
+    ViewBag.Title = "Private Chat";
+}
+<div>
+    <h3>Private Chat with
+        @foreach (var user in Model.Users.Where(x => x.UserId != WebSecurity.CurrentUserId))
+        {
+            @(string.IsNullOrEmpty(user.Nickname) ? user.UserName : user.Nickname)
+        }
+    </h3>
+    <div class="input-group">
+        <input id="message-private" class="form-control" type="text" placeholder="Type your message here..." />
+        <span class="input-group-btn">
+            <button id="send-private" class="btn btn-primary">Send <span class="glyphicon glyphicon-send"></span></button>
+        </span>
+    </div>
+    <ul id="discussion-private" class="list-unstyled list-group discussion">
+        @foreach (var message in Model.Last10Messages)
+        {
+            <li class="list-group-item-text">@message.Content</li>
+        }
+    </ul>
+</div>

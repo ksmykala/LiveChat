@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using LiveChat.Domain.Infrastructure.Interfaces;
+using LiveChat.Domain.Models.EntityClasses;
+using LiveChat.Domain.Models.EntityExtensions;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using LiveChat.Domain.Infrastructure.Interfaces;
-using LiveChat.Domain.Models.EntityClasses;
 
 namespace LiveChat.Domain.Infrastructure.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
         protected DbSet<T> DbSet;
-        private readonly DbContext _dbContext = new LiveChatContext();
+        private readonly LiveChatContext _dbContext = LiveChatContextSingleton.Instance;
 
         public Repository()
         {

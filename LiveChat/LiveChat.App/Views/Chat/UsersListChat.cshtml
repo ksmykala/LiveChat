@@ -1,0 +1,17 @@
+﻿@model IList<LiveChat.Domain.Models.EntityExtensions.ChatUserViewModel>
+
+@{
+    ViewBag.Title = "Private chat";
+}
+
+<h2>Private chat</h2>
+
+<div class="col-lg-5">
+    @Html.ValidationSummary()
+    <ul class="list-group">
+        @foreach (var user in @Model)
+        {
+            <a href="@Url.Action("PrivateChat", new { userId = user.UserId })" class="list-group-item">@user.UserName</a>
+        }
+    </ul>
+</div>

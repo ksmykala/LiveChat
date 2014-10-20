@@ -52,6 +52,10 @@
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Helpers\ComparerHelper.cs" />
+    <Compile Include="Infrastructure\Interfaces\IConversationRepository.cs" />
+    <Compile Include="Infrastructure\Interfaces\IUserRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\ConversationRepository.cs" />
     <Compile Include="Infrastructure\Repositories\RoleRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserRepository.cs" />
     <Compile Include="Infrastructure\Repositories\Repository.cs" />
@@ -89,8 +93,11 @@
     <Compile Include="Models\EntityClasses\webpages_Roles.cs">
       <DependentUpon>LiveChatDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityExtensions\ChatUserViewModel.cs" />
     <Compile Include="Models\EntityExtensions\EditUserViewModel.cs" />
+    <Compile Include="Models\EntityExtensions\LiveChatContextSingleton.cs" />
     <Compile Include="Models\EntityExtensions\ManageAccountsViewModel.cs" />
+    <Compile Include="Models\EntityExtensions\PrivateChatViewModel.cs" />
     <Compile Include="Models\EntityExtensions\RoleViewModel.cs" />
     <Compile Include="Models\EntityExtensions\User.cs" />
     <Compile Include="Models\EntityExtensions\EditUserAdminViewModel.cs" />
