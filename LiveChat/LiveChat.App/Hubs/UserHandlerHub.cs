@@ -68,8 +68,7 @@ namespace LiveChat.App.Hubs
                 {
                     UserHandler.ConnectedUsers.RemoveWhere(x => x.UserId == userId);
 
-                    Clients.AllExcept(UserHandler.ConnectedUsers.Single(x => x.UserId == userId).ConnectionIds.ToArray())
-                        .setConnectionStatus(userId, false);
+                    Clients.All.setConnectionStatus(userId, false);
                 }
             }
             return base.OnDisconnected(stopCalled);
