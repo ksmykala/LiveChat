@@ -6,7 +6,7 @@ using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Linq;
 using System.Web.Security;
-using LiveChat.Domain.Models.EntityExtensions;
+using LiveChat.Domain.ViewModels;
 using WebGrease.Css.Extensions;
 using WebMatrix.WebData;
 
@@ -15,19 +15,21 @@ namespace LiveChat.App.Controllers
     [Authorize(Roles = "Administrator")]
     public class AccountController : Controller
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IRepository<webpages_Roles> _rolesRepository;
 
-        public AccountController(IRepository<User> repository, IRepository<webpages_Roles> rolesRepository)
+        public AccountController(IUserRepository repository, IRepository<webpages_Roles> rolesRepository)
         {
             _userRepository = repository;
             _rolesRepository = rolesRepository;
         }
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ViewResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            if(!string.IsNullOrEmpty(returnUrl))
+                ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
@@ -50,8 +52,7 @@ namespace LiveChat.App.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", new { returnUrl = string.Empty});
         }
 
         [AllowAnonymous]
@@ -71,7 +72,7 @@ namespace LiveChat.App.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Nickname });
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Shoutbox", "Chat");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -142,6 +143,7 @@ namespace LiveChat.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public ActionResult Manage(EditUserViewModel model)
         {
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -177,6 +179,7 @@ namespace LiveChat.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public RedirectToRouteResult ChangeNickname(EditUserViewModel model)
         {
             if (!string.IsNullOrEmpty(model.Nickname))
@@ -191,7 +194,7 @@ namespace LiveChat.App.Controllers
             return RedirectToAction("Manage");
         }
 
-        public ActionResult AddUserRole(int userId, int roleId)
+        public PartialViewResult AddUserRole(int userId, int roleId)
         {
             var user = _userRepository.GetAll().Single(x => x.UserId == userId);
             var roleToAdd = _rolesRepository.GetAll().Single(x => x.RoleId == roleId);
@@ -243,9 +246,9 @@ namespace LiveChat.App.Controllers
             return Json(count, JsonRequestBehavior.AllowGet);
         }
 
-        public ViewResult EditUser(int userId)
+        public ViewResult EditUser(int id)
         {
-            var user = _userRepository.GetAll().Single(x => x.UserId == userId);
+            var user = _userRepository.GetAll().Single(x => x.UserId == id);
             var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
             var rolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
             var result = new EditUserAdminViewModel
@@ -263,9 +266,10 @@ namespace LiveChat.App.Controllers
         [HttpPost]
         public ActionResult EditUser(EditUserAdminViewModel model)
         {
+            var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
+
             if (ModelState.IsValid)
             {
-                var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
                 user.Nickname = model.Nickname;
                 _userRepository.Save(user);
 
@@ -278,7 +282,11 @@ namespace LiveChat.App.Controllers
                 ModelState.AddModelError(string.Empty, "The current password is incorrect or the new password is invalid.");
             }
 
-            return RedirectToAction("EditUser", new { userId = model.UserId });
+            model.Roles = user.webpages_Roles;
+            var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
+            model.RolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
+
+            return View("EditUser", model);
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -288,7 +296,7 @@ namespace LiveChat.App.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Shoutbox", "Chat");
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

@@ -1,4 +1,4 @@
-﻿@model LiveChat.Domain.Models.EntityExtensions.ManageAccountsViewModel
+﻿@model LiveChat.Domain.ViewModels.ManageAccountsViewModel
 
 @{
     ViewBag.Title = "Manage Users Account";
@@ -12,7 +12,7 @@
                 <span class="badge">@user.UserRolesCount</span>
 
                 <h4 class="list-group-item-heading">@user.UserName
-                    <a href="@Url.Action("EditUser", "Account", new { userId = user.UserId })" class="btn btn-xs btn-primary edit-user" title="Edit @user.UserName" data-user-id="@user.UserId">
+                    <a href="@Url.Action("EditUser", "Account", new { id = user.UserId })" class="btn btn-xs btn-primary edit-user" title="Edit @user.UserName" data-user-id="@user.UserId">
                         <span class="glyphicon glyphicon-wrench"></span>
                     </a>
                     <span class="btn btn-xs btn-danger remove-user" title="Remove @user.UserName" 

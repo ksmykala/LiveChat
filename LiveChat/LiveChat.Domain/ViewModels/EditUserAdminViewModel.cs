@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using LiveChat.Domain.Models.EntityClasses;
 
-namespace LiveChat.Domain.Models.EntityExtensions
+namespace LiveChat.Domain.ViewModels
 {
-    public class EditUserViewModel
+    public class EditUserAdminViewModel
     {
         public int UserId { get; set; }
 
@@ -10,7 +12,7 @@ namespace LiveChat.Domain.Models.EntityExtensions
         public string UserName { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "Nickname")]
+        [Display(Name = "New nickname")]
         public string Nickname { get; set; }
 
         [Required]
@@ -28,6 +30,11 @@ namespace LiveChat.Domain.Models.EntityExtensions
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Roles")]
+        public IEnumerable<webpages_Roles> Roles { get; set; }
+
+        public IEnumerable<webpages_Roles> RolesToAdd { get; set; }
     }
 }
 

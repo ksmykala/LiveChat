@@ -1,4 +1,4 @@
-﻿@model LiveChat.Domain.Models.EntityExtensions.EditUserViewModel
+﻿@model LiveChat.Domain.ViewModels.EditUserViewModel
 <h3>Change nickname</h3>
 
 @using (Html.BeginForm("ChangeNickname", "Account"))
@@ -12,7 +12,7 @@
         <ol>
             <li>
                 @Html.LabelFor(m => m.Nickname)
-                @Html.EditorFor(m => m.Nickname, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.Nickname, new { @class = "form-control" })
             </li>
         </ol>
         <input type="submit" value="Change nickname" />

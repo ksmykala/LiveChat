@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LiveChat.Domain.Models.EntityClasses.Message>
+﻿@model IEnumerable<LiveChat.Domain.Models.EntityExtensions.UserMessage>
 
 @{
     ViewBag.Title = "Shoutbox - send to all";
@@ -15,7 +15,10 @@
     <ul id="discussion-shoutbox" class="list-unstyled list-group discussion">
         @foreach (var message in Model)
         {
-            <li class="list-group-item-text">@message.Content</li>
+            <li class="list-group-item-text" title="@message.CreatedAt">
+                <strong>@message.Author.Name: </strong>
+                @HttpUtility.HtmlDecode(message.Content)
+            </li>
         }
     </ul>
 </div>
@@ -25,11 +28,13 @@
     <script src="~/Scripts/jquery.signalR-2.1.2.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
-        $(function() {
+        $(function () {
+            scrollToEnd('#discussion-shoutbox');
             var shoutbox = $.connection.shoutboxHub;
 
-            shoutbox.client.addNewShoutboxMessage = function(message) {
-                $('#discussion-shoutbox').append('<li class="list-group-item-text">' + message + '</li');
+            shoutbox.client.addNewShoutboxMessage = function(author, message) {
+                $('#discussion-shoutbox').append('<li class="list-group-item-text"><strong>' + author + ': </strong>' + message + '</li');
+                scrollToEnd('#discussion-shoutbox');
             };
 
             $('#message-shoutbox').focus();
@@ -46,8 +51,10 @@
                 });
 
                 function sendMessage() {
-                    shoutbox.server.send($('#message-shoutbox').val());
-                    $('#message-shoutbox').val('').focus();
+                    if (htmlEncode($('#message-shoutbox').val())) {
+                        shoutbox.server.send(htmlEncode($('#message-shoutbox').val()));
+                        $('#message-shoutbox').val('').focus();
+                    }
                 }
             });
         });

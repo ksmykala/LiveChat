@@ -1,5 +1,5 @@
-﻿@using LiveChat.Domain.Models.EntityExtensions
-@model LiveChat.Domain.Models.EntityExtensions.EditUserAdminViewModel
+﻿@using LiveChat.Domain.ViewModels
+@model EditUserAdminViewModel
 
 @{
     ViewBag.Title = "Edit user - " + @Model.UserName;
@@ -17,6 +17,8 @@
     <div id="user-data" class="panel-body">
         @using (@Html.BeginForm())
         {
+            @Html.HiddenFor(x => x.UserId)
+            @Html.HiddenFor(x => x.UserName)
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
             <fieldset>

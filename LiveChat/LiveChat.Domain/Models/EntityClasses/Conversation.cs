@@ -14,13 +14,6 @@ namespace LiveChat.Domain.Models.EntityClasses
     
     public partial class Conversation
     {
-        public Conversation()
-        {
-            this.Users = new HashSet<User>();
-        }
-    
         public System.Guid Id { get; set; }
-    
-        public virtual ICollection<User> Users { get; set; }
     }
 }

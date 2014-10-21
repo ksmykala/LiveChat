@@ -25,7 +25,9 @@ namespace LiveChat.App.Infrastructure.Ninject
         private void AddBindings()
         {
             _ninjectKernel.Bind<IRepository<Message>>().To<MessageRepository>();
-            _ninjectKernel.Bind<IRepository<User>>().To<UserRepository>();
+            _ninjectKernel.Bind<IUserRepository>().To<UserRepository>();
+            _ninjectKernel.Bind<IConversationRepository>().To<ConversationRepository>();
+            _ninjectKernel.Bind<IUsersInConversationsRepository>().To<UsersInConversationsRepository>();
             _ninjectKernel.Bind<IRepository<webpages_Roles>>().To<RoleRepository>();
         }
     }

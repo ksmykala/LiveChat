@@ -1,0 +1,71 @@
+﻿@model LiveChat.Domain.ViewModels.PrivateChatViewModel
+
+@{
+    ViewBag.Title = "Private Chat";
+}
+<div>
+    <h3>Private Chat with
+        @foreach (var user in Model.Users.Where(x => x.UserId != WebSecurity.CurrentUserId))
+        {
+            <strong>@(string.IsNullOrEmpty(user.Nickname) ? user.UserName : user.Nickname)</strong>
+        }
+    </h3>
+    <div class="input-group">
+        <input id="message-private" class="form-control" type="text" placeholder="Type your message here..." />
+        <span class="input-group-btn">
+            <button id="send-private" class="btn btn-primary">Send <span class="glyphicon glyphicon-send"></span></button>
+        </span>
+    </div>
+    <ul id="discussion-private" class="list-unstyled list-group discussion">
+        @foreach (var message in Model.Messages)
+        {
+            <li class="list-group-item-text" title="@message.CreatedAt">
+                <strong>@(message.Author.Name): </strong>
+                @HttpUtility.HtmlDecode(message.Content)
+            </li>
+        }
+    </ul>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(function () {
+            scrollToEnd('#discussion-private');
+            var privateChat = $.connection.privateChatHub;
+            var userHandler = $.connection.userHandlerHub;
+
+            privateChat.client.addPrivateMessage = function(conversationId, author, message) {
+                $('#discussion-private').append('<li class="list-group-item-text"><strong>' + author + ': </strong>' + message + '</li');
+                scrollToEnd('#discussion-private');
+            };
+
+            $('#message-private').focus();
+
+            $.connection.hub.start().done(function() {
+                $('#message-private').keypress(function(e) {
+                    if (e.keyCode == 13) {
+                        sendMessage();
+                    }
+                });
+
+                $('#send-private').click(function() {
+                    sendMessage();
+                });
+
+                function sendMessage() {
+                    if (!htmlEncode($('#message-shoutbox').val())) {
+                        var message = htmlEncode($('#message-private').val());
+                        var url = '@Url.Action("PrivateChat", "Chat", new { userId = WebSecurity.CurrentUserId }, Request.Url.Scheme)';
+
+                        privateChat.server.send('@Model.ConversationId', message, url);
+                        userHandler.server.sendInvitation('@Model.ConversationId', url);
+
+                        $('#message-private').val('').focus();
+                    }
+                }
+            });
+        });
+    </script>
+}

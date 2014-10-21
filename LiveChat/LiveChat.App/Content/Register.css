@@ -1,0 +1,51 @@
+﻿body {
+    padding-top: 5em;
+}
+
+.title {
+    max-width: 330px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-register {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+    .form-register .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+        .form-register .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-register #login {
+        margin-bottom: -1px;
+        -ms-border-top-left-radius: 0.5em;
+        border-top-left-radius: 0.5em;
+        -ms-border-top-right-radius: 0.5em;
+        border-top-right-radius: 0.5em;
+    }
+
+    .form-register input {
+        margin-bottom: -1px;
+        -ms-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .form-register #confirm-password {
+        margin-bottom: -1px;
+        -ms-border-bottom-left-radius: 0.5em;
+        border-bottom-left-radius: 0.5em;
+        -ms-border-bottom-right-radius: 0.5em;
+        border-bottom-right-radius: 0.5em;
+    }
