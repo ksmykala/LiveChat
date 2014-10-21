@@ -1,4 +1,5 @@
-﻿using LiveChat.Domain.Infrastructure.Interfaces;
+﻿using LiveChat.Domain.Common.Helpers;
+using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
 using LiveChat.Domain.Models.EntityExtensions;
 using System.Linq;
@@ -50,11 +51,13 @@ namespace LiveChat.App.Controllers
         {
             var result = _userRepository.GetAll()
                 .Where(x => x.UserId != WebSecurity.CurrentUserId)
+                .ToList()
                 .Select(x => new ChatUserViewModel
                 {
                     UserId = x.UserId,
                     Nickname = x.Nickname,
-                    UserName = x.UserName
+                    UserName = x.UserName,
+                    IsConnected = UserHandler.IsUserConnected(x.UserId)
                 })
                 .ToList();
             return View(result);

@@ -22,7 +22,7 @@ namespace LiveChat.Domain.ViewModels
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Nickname { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsConnected { get; set; }
 
         public string Name
         {

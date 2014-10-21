@@ -31,7 +31,7 @@ namespace LiveChat.App.Hubs
                     });
 
                     var message = string.Format("{0} has joined", Context.User.Identity.Name);
-                    Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                    Clients.All.setConnectionStatus(WebSecurity.CurrentUserId, true);
                 }
             }
             return base.OnConnected();
@@ -49,7 +49,7 @@ namespace LiveChat.App.Hubs
                     UserHandler.ConnectedUsers.RemoveWhere(x => x.UserId == userId);
 
                     var message = string.Format("{0} has left", Context.User.Identity.Name);
-                    Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                    Clients.All.setConnectionStatus(userId, false);
                 }
             }
             return base.OnDisconnected(stopCalled);

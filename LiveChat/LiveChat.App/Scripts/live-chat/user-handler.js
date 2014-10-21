@@ -9,5 +9,15 @@ $(function() {
         $informationPanel.show('slow').delay(5000).hide('slow');
     };
 
+    userHandler.client.setConnectionStatus = function(userId, isConnected) {
+        var $control = $('#' + userId + '-user-list-element > .badge');
+
+        if (isConnected) {
+            $control.fadeIn('slow');
+        } else {
+            $control.fadeOut('slow');
+        }
+    };
+
     $.connection.hub.start();
 });

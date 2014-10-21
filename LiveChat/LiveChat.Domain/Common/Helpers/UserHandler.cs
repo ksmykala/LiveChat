@@ -18,5 +18,11 @@ namespace LiveChat.Domain.Common.Helpers
             var result = !ConnectedUsers.Single(x => x.UserId == userId).ConnectionIds.Any();
             return result;
         }
+
+        public static bool IsUserConnected(int userId)
+        {
+            var result = ConnectedUsers.Select(x => x.UserId).Contains(userId);
+            return result;
+        }
     }
 }
