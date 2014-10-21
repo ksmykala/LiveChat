@@ -1,0 +1,52 @@
+﻿@model LiveChat.Domain.Models.EntityClasses.RegisterModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LiveChat - Register</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+    <div class="container">
+        <hgroup class="title">
+            <h2>Create a new account in <strong>LiveChat</strong> <span class="glyphicon glyphicon-bullhorn"></span>.</h2>
+        </hgroup>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-register" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+
+            <fieldset>
+                <legend>Registration Form</legend>
+                <ol class="list-unstyled">
+                    <li>
+                        @Html.TextBoxFor(m => m.UserName, new { @id = "login", @class = "form-control", @placeholder = "Login", @required = "", autofocus="" })
+                    </li>
+                    <li>
+                        @Html.TextBoxFor(m => m.Nickname, new { @class = "form-control", @placeholder = "Nickname" })
+                    </li>
+                    <li>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "" })
+                    </li>
+                    <li>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @id = "confirm-password", @class = "form-control", @placeholder = "Confirm password", @required = "" })
+                    </li>
+                </ol>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+            </fieldset>
+        }
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/register")
+    @Styles.Render("~/Content/validations")
+    @Styles.Render("~/Content/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿@model LiveChat.Domain.ViewModels.EditUserViewModel
+<h3>Change nickname</h3>
+
+@using (Html.BeginForm("ChangeNickname", "Account"))
+{
+    @Html.HiddenFor(x=>x.UserId)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Change Nickname Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Nickname)
+                @Html.TextBoxFor(m => m.Nickname, new { @class = "form-control" })
+            </li>
+        </ol>
+        <input type="submit" value="Change nickname" />
+    </fieldset>
+}

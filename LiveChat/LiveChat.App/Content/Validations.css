@@ -1,0 +1,7 @@
+﻿.validation-summary-errors ul{
+    list-style: none;
+    font-weight: bold;
+    color: #d43530;
+    padding: 0;
+    text-align: center;
+}

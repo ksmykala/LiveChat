@@ -1,0 +1,48 @@
+﻿@model LiveChat.Domain.Models.EntityClasses.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LiveChat - Login</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin" }))
+        {
+            <fieldset>
+                <legend class="form-signin-heading">Please log into <strong>LiveChat</strong> <span class="glyphicon glyphicon-bullhorn"></span></legend>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <ol class="list-unstyled">
+                    <li>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Login", @required = "", @autofocus = "" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "" })
+                    </li>
+                    <li>
+                        <label class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            Remember me
+                        </label>
+                    </li>
+                </ol>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            </fieldset>
+            <p>
+                @Html.ActionLink("Register", "Register") if you don't have an account.
+            </p>
+        }
+    </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/login")
+    @Styles.Render("~/Content/validations")
+    @Styles.Render("~/Content/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>
