@@ -265,9 +265,10 @@ namespace LiveChat.App.Controllers
         [HttpPost]
         public ActionResult EditUser(EditUserAdminViewModel model)
         {
+            var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
+
             if (ModelState.IsValid)
             {
-                var user = _userRepository.GetAll().Single(x => x.UserId == model.UserId);
                 user.Nickname = model.Nickname;
                 _userRepository.Save(user);
 
@@ -280,7 +281,11 @@ namespace LiveChat.App.Controllers
                 ModelState.AddModelError(string.Empty, "The current password is incorrect or the new password is invalid.");
             }
 
-            return RedirectToAction("EditUser", new { userId = model.UserId });
+            model.Roles = user.webpages_Roles;
+            var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
+            model.RolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
+
+            return View("EditUser", model);
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

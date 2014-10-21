@@ -21,6 +21,10 @@
         color: rgb(133, 133, 133);
     }
 
+.edit-user-panel {
+    margin-top: 3em;
+}
+
     .edit-user-panel .list-group-item-heading {
         font-size: 18px;
         font-style: italic;
