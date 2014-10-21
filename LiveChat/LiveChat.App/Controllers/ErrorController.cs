@@ -4,7 +4,12 @@ namespace LiveChat.App.Controllers
 {
     public class ErrorController : Controller
     {
-        public ActionResult Index()
+        public ViewResult Index()
+        {
+            return View();
+        }
+
+        public ViewResult AccessDenied()
         {
             return View();
         }

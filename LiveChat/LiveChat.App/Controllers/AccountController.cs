@@ -6,7 +6,6 @@ using LiveChat.Domain.Models.EntityClasses;
 using System;
 using System.Linq;
 using System.Web.Security;
-using LiveChat.Domain.Models.EntityExtensions;
 using LiveChat.Domain.ViewModels;
 using WebGrease.Css.Extensions;
 using WebMatrix.WebData;
@@ -51,7 +50,7 @@ namespace LiveChat.App.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-
+            ViewBag.ReturnUrl = "/";
             return RedirectToAction("Login");
         }
 
@@ -143,6 +142,7 @@ namespace LiveChat.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public ActionResult Manage(EditUserViewModel model)
         {
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -178,6 +178,7 @@ namespace LiveChat.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, User")]
         public RedirectToRouteResult ChangeNickname(EditUserViewModel model)
         {
             if (!string.IsNullOrEmpty(model.Nickname))

@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using LiveChat.Domain.Common.Helpers;
-using LiveChat.Domain.Models.EntityClasses;
 using LiveChat.Domain.Models.EntityExtensions;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
@@ -14,15 +14,25 @@ namespace LiveChat.App.Hubs
         {
             if (Context.User.Identity.IsAuthenticated)
             {
-                UserHandler.ConnectedUsers.Add(new ConnectedUser
-                {
-                    //UserId = WebSecurity.CurrentUserId,
-                    ConnectionIds = Context.ConnectionId,
-                    UserName = Context.User.Identity.Name
-                });
+                var user = UserHandler.ConnectedUsers.SingleOrDefault(x => x.UserId == WebSecurity.CurrentUserId);
 
-                var message = string.Format("{0} has joined", Context.User.Identity.Name);
-                Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                if (user != null)
+                {
+                    UserHandler.ConnectedUsers.Single(x => x.UserId == WebSecurity.CurrentUserId)
+                        .ConnectionIds.Add(Context.ConnectionId);
+                }
+                else
+                {
+                    UserHandler.ConnectedUsers.Add(new ConnectedUser
+                    {
+                        UserId = WebSecurity.CurrentUserId,
+                        UserName = Context.User.Identity.Name,
+                        ConnectionIds = new List<string> { Context.ConnectionId }
+                    });
+
+                    var message = string.Format("{0} has joined", Context.User.Identity.Name);
+                    Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                }
             }
             return base.OnConnected();
         }
@@ -31,10 +41,16 @@ namespace LiveChat.App.Hubs
         {
             if (Context.User.Identity.IsAuthenticated)
             {
-                UserHandler.ConnectedUsers.RemoveWhere(x => x.ConnectionIds == Context.ConnectionId);
+                var userId = UserHandler.ConnectedUsers.First(x => x.ConnectionIds.Contains(Context.ConnectionId)).UserId;
+                UserHandler.RemoveConnectionId(userId, Context.ConnectionId);
 
-                var message = string.Format("{0} has left", Context.User.Identity.Name);
-                Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                if (UserHandler.AreAllUsersConnectionsClosed(userId))
+                {
+                    UserHandler.ConnectedUsers.RemoveWhere(x => x.UserId == userId);
+
+                    var message = string.Format("{0} has left", Context.User.Identity.Name);
+                    Clients.AllExcept(Context.ConnectionId).addInformation(message);
+                }
             }
             return base.OnDisconnected(stopCalled);
         }
