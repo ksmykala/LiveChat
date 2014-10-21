@@ -13,5 +13,10 @@ namespace LiveChat.App.Controllers
         {
             return View();
         }
+
+        public ViewResult PageNotFound()
+        {
+            return View();
+        }
     }
 }

@@ -27,7 +27,9 @@ namespace LiveChat.App.Controllers
         [AllowAnonymous]
         public ViewResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            if(!string.IsNullOrEmpty(returnUrl))
+                ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
@@ -50,8 +52,7 @@ namespace LiveChat.App.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-            ViewBag.ReturnUrl = null;
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", new { returnUrl = string.Empty});
         }
 
         [AllowAnonymous]
@@ -193,7 +194,7 @@ namespace LiveChat.App.Controllers
             return RedirectToAction("Manage");
         }
 
-        public ActionResult AddUserRole(int userId, int roleId)
+        public PartialViewResult AddUserRole(int userId, int roleId)
         {
             var user = _userRepository.GetAll().Single(x => x.UserId == userId);
             var roleToAdd = _rolesRepository.GetAll().Single(x => x.RoleId == roleId);
@@ -245,9 +246,9 @@ namespace LiveChat.App.Controllers
             return Json(count, JsonRequestBehavior.AllowGet);
         }
 
-        public ViewResult EditUser(int userId)
+        public ViewResult EditUser(int id)
         {
-            var user = _userRepository.GetAll().Single(x => x.UserId == userId);
+            var user = _userRepository.GetAll().Single(x => x.UserId == id);
             var userRolesIds = user.webpages_Roles.Select(x => x.RoleId);
             var rolesToAdd = _rolesRepository.GetAll().Where(x => !userRolesIds.Contains(x.RoleId));
             var result = new EditUserAdminViewModel

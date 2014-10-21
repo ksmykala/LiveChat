@@ -17,6 +17,7 @@
     <div id="user-data" class="panel-body">
         @using (@Html.BeginForm())
         {
+            @Html.HiddenFor(x => x.UserId)
             @Html.HiddenFor(x => x.UserName)
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
