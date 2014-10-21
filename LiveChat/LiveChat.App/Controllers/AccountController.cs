@@ -50,7 +50,7 @@ namespace LiveChat.App.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-            ViewBag.ReturnUrl = "/";
+            ViewBag.ReturnUrl = null;
             return RedirectToAction("Login");
         }
 

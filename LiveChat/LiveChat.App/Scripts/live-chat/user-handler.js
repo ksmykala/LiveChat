@@ -9,13 +9,21 @@ $(function() {
         $informationPanel.show('slow').delay(5000).hide('slow');
     };
 
-    userHandler.client.setConnectionStatus = function(userId, isConnected) {
+    userHandler.client.setConnectionStatus = function (userId, isConnected) {
         var $control = $('#' + userId + '-user-list-element > .badge');
 
         if (isConnected) {
             $control.fadeIn('slow');
         } else {
             $control.fadeOut('slow');
+        }
+    };
+
+    userHandler.client.newMessageAlert = function (authorName, url) {
+        if (document.URL != url) {
+            var $informationPanel = $('#information-panel');
+            $informationPanel.html('New message from <strong>' + authorName + '</strong>.<a href="' + url + '">Click to read</a>');
+            $informationPanel.show('slow').delay(7654).hide('slow');
         }
     };
 

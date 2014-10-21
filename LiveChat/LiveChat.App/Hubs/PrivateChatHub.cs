@@ -1,4 +1,7 @@
-﻿using LiveChat.Domain.Infrastructure.Interfaces;
+﻿using System.Security.Policy;
+using System.Web;
+using System.Web.Mvc;
+using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityClasses;
 using Microsoft.AspNet.SignalR;
 using System;
@@ -20,7 +23,7 @@ namespace LiveChat.App.Hubs
             _usersRepository = usersRepository;
         }
 
-        public void Send(Guid conversationId, string message)
+        public void Send(Guid conversationId, string message, string url)
         {
             var userIds = _usersInConversationRepository.GetUsersIdsForConversation(conversationId).ToList();
             var usersNames = _usersRepository.GetAll().Where(x => userIds.Contains(x.UserId)).ToList().Select(x => x.UserName).ToList();
@@ -35,6 +38,8 @@ namespace LiveChat.App.Hubs
 
             var author = _usersRepository.GetById(messageEntity.CreateBy);
             Clients.Users(usersNames).addPrivateMessage(conversationId, author.Name, message);
+
+            Clients.Users(usersNames).newMessageAlert(author.Name, url);
         }
     }
 }

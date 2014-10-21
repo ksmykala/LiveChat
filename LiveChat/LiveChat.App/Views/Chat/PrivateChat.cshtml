@@ -34,6 +34,7 @@
         $(function () {
             scrollToEnd('#discussion-private');
             var privateChat = $.connection.privateChatHub;
+            var userHandler = $.connection.userHandlerHub;
 
             privateChat.client.addPrivateMessage = function(conversationId, author, message) {
                 $('#discussion-private').append('<li class="list-group-item-text"><strong>' + author + ': </strong>' + message + '</li');
@@ -55,7 +56,12 @@
 
                 function sendMessage() {
                     if (!htmlEncode($('#message-shoutbox').val())) {
-                        privateChat.server.send('@Model.ConversationId', htmlEncode($('#message-private').val()));
+                        var message = htmlEncode($('#message-private').val());
+                        var url = '@Url.Action("PrivateChat", "Chat", new { userId = WebSecurity.CurrentUserId }, Request.Url.Scheme)';
+
+                        privateChat.server.send('@Model.ConversationId', message, url);
+                        userHandler.server.sendInvitation('@Model.ConversationId', url);
+
                         $('#message-private').val('').focus();
                     }
                 }

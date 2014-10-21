@@ -22,7 +22,10 @@
                         <ul id="menu" class="nav nav-tabs" role="tablist">
                             <li>@Html.ActionLink("Shoutbox", "Shoutbox", "Chat")</li>
                             <li>@Html.ActionLink("Live Chat", "UsersListChat", "Chat")</li>
-                            <li>@Html.ActionLink("ManageAccounts", "ManageAccounts", "Account")</li>
+                            @if (Roles.IsUserInRole("Administrator"))
+                            {
+                                <li>@Html.ActionLink("ManageAccounts", "ManageAccounts", "Account")</li>
+                            }
                         </ul>
                     </nav>
                 </div>

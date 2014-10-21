@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LiveChat.Domain.Common.Helpers;
+using LiveChat.Domain.Infrastructure.Interfaces;
 using LiveChat.Domain.Models.EntityExtensions;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
@@ -10,6 +12,25 @@ namespace LiveChat.App.Hubs
 {
     public class UserHandlerHub : Hub
     {
+        private readonly IUsersInConversationsRepository _usersInConversationRepository;
+        private readonly IUserRepository _usersRepository;
+
+        public UserHandlerHub(IUsersInConversationsRepository conversationRepository, IUserRepository usersRepository)
+        {
+            _usersInConversationRepository = conversationRepository;
+            _usersRepository = usersRepository;
+        }
+
+        public void SendInvitation(Guid conversationId, string url)
+        {
+            var userIds = _usersInConversationRepository.GetUsersIdsForConversation(conversationId).ToList();
+            userIds.Remove(WebSecurity.CurrentUserId);
+            var usersNames = _usersRepository.GetAll().Where(x => userIds.Contains(x.UserId)).ToList().Select(x => x.UserName).ToList();
+            var author = _usersRepository.GetById(WebSecurity.CurrentUserId);
+
+            Clients.Users(usersNames).newMessageAlert(author.Name, url);
+        }
+
         public override Task OnConnected()
         {
             if (Context.User.Identity.IsAuthenticated)
@@ -30,7 +51,6 @@ namespace LiveChat.App.Hubs
                         ConnectionIds = new List<string> { Context.ConnectionId }
                     });
 
-                    var message = string.Format("{0} has joined", Context.User.Identity.Name);
                     Clients.All.setConnectionStatus(WebSecurity.CurrentUserId, true);
                 }
             }
@@ -48,8 +68,8 @@ namespace LiveChat.App.Hubs
                 {
                     UserHandler.ConnectedUsers.RemoveWhere(x => x.UserId == userId);
 
-                    var message = string.Format("{0} has left", Context.User.Identity.Name);
-                    Clients.All.setConnectionStatus(userId, false);
+                    Clients.AllExcept(UserHandler.ConnectedUsers.Single(x => x.UserId == userId).ConnectionIds.ToArray())
+                        .setConnectionStatus(userId, false);
                 }
             }
             return base.OnDisconnected(stopCalled);

@@ -89,7 +89,7 @@ namespace LiveChat.App.Controllers
                     Users = chatUsers,
                     Messages = _messageRepository.GetAll()
                         .Where(x => x.ConversationId == conversationId)
-                        .OrderByDescending(x => x.CreateAt)
+                        .OrderBy(x => x.CreateAt)
                         .ToList()
                         .Select(x => new UserMessage
                         {
