@@ -11,7 +11,7 @@
     <ul class="list-group">
         @foreach (var user in @Model)
         {
-            <a id="@user.UserId-user-list-element" href="@Url.Action("PrivateChat", new { userId = user.UserId })" class="list-group-item">
+            <a id="@user.UserId-user-list-element" href="@Url.Action("PrivateChat", new { userId = user.UserId })" class="list-group-item user-list-group-item">
                 @user.Name
                 @if (user.IsConnected)
                 {
