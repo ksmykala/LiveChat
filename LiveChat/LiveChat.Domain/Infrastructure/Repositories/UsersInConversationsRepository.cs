@@ -34,7 +34,7 @@ namespace LiveChat.Domain.Infrastructure.Repositories
                 }
             }
 
-            if(result == Guid.Empty)
+            if (result == Guid.Empty)
                 result = CreateNewConversation(users);
 
             return result;
